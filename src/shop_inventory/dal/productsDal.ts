@@ -1,6 +1,6 @@
 import { client } from "../../dbAccess/postgresConnection";
 import ServerError from "../../utils/serverErrorClass";
-import { shopProductInterface } from "../interfaces/shopProductInterface";
+import { ShopProductInterface } from "../interfaces/shopProductInterface";
 
 export const getProductByIdFromDb = async (id: string) => {
     try {
@@ -15,9 +15,54 @@ export const getProductByIdFromDb = async (id: string) => {
         await client.query('COMMIT');
         
         if (!product) throw new ServerError(400, "product not found");
-        return product.rows[0] as shopProductInterface;
+        return product.rows[0] as ShopProductInterface;
     } catch (error) {
         await client.query('ROLLBACK');
         return Promise.reject(error);
     }
-  };
+};
+
+
+export const getProductsBySearchFromDb = async (searchText: string) => {
+    try {
+
+        await client.query('BEGIN');        
+        const products = await client.query(
+            `SELECT
+            id, name, salePrice, quantity, description, category, discountPercentage, imageUrl, imageAlt
+            FROM products
+            WHERE name ILIKE '%${searchText}%'
+                OR description ILIKE '%${searchText}%'
+                OR category ILIKE '%${searchText}%';`
+        );
+        await client.query('COMMIT');
+        
+        if (!products) throw new ServerError(400, "product not found");
+        return products.rows as ShopProductInterface[];
+
+    } catch (error) {
+        await client.query('ROLLBACK');
+        return Promise.reject(error);
+    }
+};
+
+export const getProductsByIdFromDb = async (ids:string[]) => {
+    try {
+
+        await client.query('BEGIN');        
+        const products = await client.query(
+            `SELECT
+            id, name, quantity
+            FROM products
+            WHERE id IN (${ids});`
+        );
+        await client.query('COMMIT');
+        
+        if (!products) throw new ServerError(400, "product not found");
+        return products.rows as ShopProductInterface[];
+
+    } catch (error) {
+        await client.query('ROLLBACK');
+        return Promise.reject(error);
+    }
+};
