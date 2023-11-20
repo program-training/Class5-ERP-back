@@ -21,16 +21,13 @@ export const register = async (user: UserInterface): UserResult => {
     const userRegistered = users.find(
       (userInDB) => userInDB.username === user.username
     );
+
     if (userRegistered) throw new Error("This user is allready registered!");
 
     user.password = generateUserPassword(user.password);
-    await insertUsers(user);
-    // users.push({ ...user });
 
-    await modifyCollection(
-      "users",
-      users as unknown as Record<string, unknown>[]
-    );
+    await insertUsers(user);
+
     return user;
   } catch (error) {
     console.log(error);
