@@ -1,6 +1,8 @@
 import { UserInterface } from "../interface/user";
 import userValidation from "../model/joi/userValidertion";
 import { Request, Response } from "express";
+import { register } from "../service/authService";
+import { handleError } from "../../utils/handleErrors";
 
 export const handleUserRegistration = async (req: Request, res: Response) => {
   try {
