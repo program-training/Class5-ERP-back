@@ -5,6 +5,7 @@ import { connectionToPostgres } from "./dbAccess/postgresConnection";
 import router from "./router/router";
 import morganLogger from "./logger/morgan";
 import cors from "./cors/cors";
+import initialData from "./utils/initialData";
 
 const app = express();
 const PORT = process.env.PORT;
@@ -21,6 +22,11 @@ app.listen(PORT, () => {
     .then((message) => console.log(message))
     .catch((error) => console.log(error.message));
   connectionToPostgres()
-    .then((message) => console.log(message))
+    .then((message) => {
+      console.log(message);
+      initialData()
+        .then(message => console.log(message))
+        .catch(message => console.log(message))
+    })
     .catch((error) => console.log(error.message));
 });
