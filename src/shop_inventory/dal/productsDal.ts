@@ -71,8 +71,8 @@ export const getProductsByIdFromDb = async (ids:string[]) => {
     }
 };
 
-export const updateProductsInDb = async (productsToUpdate:UpdateProductInterface[]) => {
-    const query = generateUpdateQuery(productsToUpdate);
+export const updateProductsInDb = async (productsToUpdate:UpdateProductInterface[], action:'-'|'+') => {
+    const query = generateUpdateQuery(productsToUpdate, action);
     try {
         await client.query('BEGIN');
         await client.query(query);
