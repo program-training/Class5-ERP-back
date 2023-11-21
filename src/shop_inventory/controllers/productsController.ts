@@ -30,9 +30,13 @@ export const handleGetProductsBySearch = async (req: Request, res: Response) => 
 export const handleUpdateProducts = async (req: Request, res: Response) => {
   try{
     const productsToUpdate = req.body;
-    updateProductsById(productsToUpdate);
-        
+    await updateProductsById(productsToUpdate);
+    res.send();
   }catch (error) {
-    handleError(res, error);
+    if(error instanceof Object){
+      res.status(400).send(error);
+    }else{
+      handleError(res, error);
+    }
   }
 }
