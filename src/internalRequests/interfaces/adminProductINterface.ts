@@ -1,6 +1,6 @@
-import { shopProductInterface } from "../../shop_inventory/interfaces/shopProductInterface";
+import { ShopProductInterface } from "../../shop_inventory/interfaces/shopProductInterface";
 
-export interface AdminProductInterface extends shopProductInterface {
+export interface AdminProductInterface extends ShopProductInterface {
   isForSale: boolean;
   costPrice: number;
   supplier: string;
