@@ -9,27 +9,33 @@ export const exportIdsToArray = (products:UpdateProductInterface[]) => {
 export const checkQuantity = (productsToUpdate:UpdateProductInterface[],
                               productsToUpdateFromDb:ShopProductInterface[]) => {
     
+    const outOfStockProducts = [];
     for(let i = 0; i < productsToUpdate.length; i++){
         const productToUpdate = productsToUpdate[i];
         const productFromDb = productsToUpdateFromDb.find(item => 
             String(item.id) === productToUpdate.productId);
         
         if(productFromDb!.quantity - productToUpdate.requiredQuantity < 0){
-            throw {
+            outOfStockProducts.push({
                 productId: String(productFromDb?.id),
-                cause: "not enough in stock"
-            };
+                requestQuantity: productToUpdate.requiredQuantity,
+                inInventory: productFromDb!.quantity
+            });
         }
+    }
+
+    if (outOfStockProducts.length > 0){ 
+        throw (outOfStockProducts);
     }
 }
 
-export const generateUpdateQuery = (productsToUpdate:UpdateProductInterface[]) => {
+export const generateUpdateQuery = (productsToUpdate:UpdateProductInterface[], action:'+'|'-') => {
     let query = `UPDATE products 
     SET quantity = CASE `;
     
     for (let i = 0; i < productsToUpdate.length; i++) {
         const product = productsToUpdate[i];
-        const addToQuery = `WHEN id = ${product.productId} THEN GREATEST(quantity-${product.requiredQuantity},0) `;
+        const addToQuery = `WHEN id = ${product.productId} THEN GREATEST(quantity${action}${product.requiredQuantity},0) `;
         query += addToQuery;
     }
 
