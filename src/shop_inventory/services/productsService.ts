@@ -1,9 +1,10 @@
 import {
     getProductByIdFromDb,
     getProductsBySearchFromDb,
-    getProductsByIdFromDb
+    getProductsByIdFromDb,
+    updateProductsInDb
 }from "../dal/productsDal";
-import { ShopProductInterface } from "../interfaces/shopProductInterface";
+import { exportIdsToArray, checkQuantity } from "../helpers/helpers";
 import { UpdateProductInterface } from "../interfaces/updateProductInterface";
 
 export const getProductById = async (id: string) => {
@@ -30,29 +31,8 @@ export const updateProductsById = async (productsToUpdate: UpdateProductInterfac
   try {
     const productsToUpdateFromDb = await getProductsByIdFromDb(ids);
     checkQuantity(productsToUpdate, productsToUpdateFromDb);
-
+    await updateProductsInDb(productsToUpdate);
   }catch (error) {
     return Promise.reject(error);
   }
-}
-
-
-const exportIdsToArray = (products:UpdateProductInterface[]) => {
-  const ids = products.map(product => product.productId);
-  return ids;
-}
-
-const checkQuantity = (productsToUpdate:UpdateProductInterface[],
-                       productsToUpdateFromDb:ShopProductInterface[]) => {
-    for(let i = 0; i < productsToUpdate.length; i++){
-      const productToUpdate = productsToUpdate[i];
-      const productFromDb = productsToUpdateFromDb.find(item => item.id === productToUpdate.productId);
-      ////// im here!!!!
-      // console.log(productToUpdate);
-      // console.log(productFromDb);
-      
-      if(productFromDb!.quantity - productToUpdate.requiredQuantity < 0){
-          throw new Error(`not enaugh quantity \nid:${productFromDb?.id} \nname:${productFromDb?.name} \nquantity:${productFromDb?.quantity}`);
-      }
-    }
 }
