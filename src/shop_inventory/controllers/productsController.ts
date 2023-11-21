@@ -3,12 +3,16 @@ import {handleError} from "../../utils/handleErrors";
 import {
     getProductById,
     getProductsBySearch,
-    updateProductsById
+    updateProductsById,
 }from "../services/productsService";
+import ServerError from "../../utils/serverErrorClass";
 
 export const handleGetProductById = async (req: Request, res: Response) => {
     try {
       const { productId } = req.params;
+      if(Number.isNaN(+productId)) {
+        throw new ServerError(404, 'Id must be a number');
+      }
       const product = await getProductById(productId);
       res.send(product);
     } catch (error) {
@@ -19,6 +23,9 @@ export const handleGetProductById = async (req: Request, res: Response) => {
 export const handleGetProductsBySearch = async (req: Request, res: Response) => {
   try{
     const query = req.query;
+    if(!Object(query).hasOwnProperty('searchText')){
+      throw new ServerError(403, 'Query params not valid');
+    };
     const searchText = query.searchText as string;
     const products = await getProductsBySearch(searchText);
     res.send(products);
@@ -30,7 +37,7 @@ export const handleGetProductsBySearch = async (req: Request, res: Response) => 
 export const handleUpdateProducts = async (req: Request, res: Response) => {
   try{
     const productsToUpdate = req.body;
-    await updateProductsById(productsToUpdate);
+    await updateProductsById(productsToUpdate, '-');
     res.send();
   }catch (error) {
     if(error instanceof Object){
@@ -39,4 +46,15 @@ export const handleUpdateProducts = async (req: Request, res: Response) => {
       handleError(res, error);
     }
   }
+}
+
+export const handleCancelOrder = async (req: Request, res: Response) => {
+  try{
+      const productsToUpdate = req.body;
+      await updateProductsById(productsToUpdate, '+');
+      res.send();
+  }catch (error) {
+    handleError(res, error);
+  }
+
 }

@@ -1,6 +1,7 @@
 import { getAllUsersFromMongoDB, insertUsers } from "../dal/mongose";
 import { comparePassword, generateUserPassword } from "../helpers/bcrypt";
 import { UserInterface } from "../interface/user";
+import { generateAuthToken } from "../model/jwt/jwt";
 
 type UserResult = Promise<UserInterface | null>;
 
@@ -50,10 +51,10 @@ export const login = async (userFromClient: UserInterface) => {
     if (!comparePassword(userFromClient.password, userInDB.password))
       throw new Error("The email or password is incorrect!");
 
-    const token = generateAuthToken();
+    const token = generateAuthToken(userInDB);
     const resInfoObj = { token: token, user: userInDB };
 
-    return { message: "Login successful", resInfoObj };
+    return { message: "Login successful", resData: resInfoObj };
   } catch (error) {
     console.error(error);
     return Promise.reject(error);

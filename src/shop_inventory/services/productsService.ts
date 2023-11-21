@@ -5,6 +5,7 @@ import {
     updateProductsInDb
 }from "../dal/productsDal";
 import { exportIdsToArray, checkQuantity } from "../helpers/helpers";
+import { ShopProductInterface } from "../interfaces/shopProductInterface";
 import { UpdateProductInterface } from "../interfaces/updateProductInterface";
 
 export const getProductById = async (id: string) => {
@@ -18,21 +19,34 @@ export const getProductById = async (id: string) => {
 
 export const getProductsBySearch = async (searchText: string) => {
   try {
-    const products = await getProductsBySearchFromDb(searchText);
+    let products = await getProductsBySearchFromDb(searchText);
+    products = products.filter(product => product.quantity > 0);
     return products;
   }catch (error) {
     return Promise.reject(error);
   }
 }
 
-export const updateProductsById = async (productsToUpdate: UpdateProductInterface[]) => {
+export const updateProductsById = async (productsToUpdate: UpdateProductInterface[], action:'-'|'+') => {
   const ids = exportIdsToArray(productsToUpdate);
   
   try {
     const productsToUpdateFromDb = await getProductsByIdFromDb(ids);
-    checkQuantity(productsToUpdate, productsToUpdateFromDb);
-    await updateProductsInDb(productsToUpdate);
+    if(action === '-'){
+      checkQuantity(productsToUpdate, productsToUpdateFromDb);
+    }
+    await updateProductsInDb(productsToUpdate, action);
   }catch (error) {
     return Promise.reject(error);
   }
 }
+
+// export const addQuantityById = async (productsToUpdate: Pick<ShopProductInterface, "id" | "quantity">[]) => {
+//   const ids = productsToUpdate.map(product => product.id);
+//   try{
+//     await updateProductsInDb(productsToUpdate);
+//   }catch (error) {
+//     console.log(error);
+//     return Promise.reject(error);
+//   }
+// }
