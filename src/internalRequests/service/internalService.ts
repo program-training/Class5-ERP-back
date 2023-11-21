@@ -1,4 +1,5 @@
 import { sendQuery } from "../dal/internalDal";
+import { AdminProductInterface } from "../interfaces/adminProductINterface";
 import queries from "../utils/queries";
 
 export const getAllProductsService = async () => {
@@ -20,6 +21,13 @@ export const getProductByIdService = async (id: string) => {
     if (!product.length) throw new Error("Product not found");
 
     return product;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+export const addNewProductService = async (product: AdminProductInterface) => {
+  try {
   } catch (error) {
     return Promise.reject(error);
   }
