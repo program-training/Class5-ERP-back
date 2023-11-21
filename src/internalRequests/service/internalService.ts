@@ -6,7 +6,6 @@ import {
   sendUpdateProductQuery,
 } from "../dal/internalDal";
 import { getArrOfObjEntries } from "../helpers/getArrOfObjEntries";
-import { insertQGenerator } from "../helpers/queryGenerators";
 import { AdminProductInterface } from "../interfaces/adminProductINterface";
 
 export const getAllProductsService = async () => {
@@ -21,7 +20,7 @@ export const getAllProductsService = async () => {
 
 export const getProductByIdService = async (id: string) => {
   try {
-    if (Number.isNaN(Number(id))) throw new Error("id must be a number");
+    if (Number.isNaN(+id)) throw new Error("id must be a number");
 
     const product = await sendGetProductByIdQuery(id);
     if (!product.length) throw new Error("Product not found");
@@ -36,6 +35,8 @@ export const addNewProductService = async (
   product: Omit<AdminProductInterface, "id">
 ) => {
   try {
+    if (product.name === undefined)
+      throw new Error("please provide valid product");
     const entries = getArrOfObjEntries(product);
     const newProduct = await sendAddProductQuery(entries);
     return newProduct;

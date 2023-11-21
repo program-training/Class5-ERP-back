@@ -30,7 +30,6 @@ export const handleGetProductByIdReq = async (req: Request, res: Response) => {
 export const handleAddProductReq = async (req: Request, res: Response) => {
   try {
     const product = req.body;
-
     const insertProduct = await addNewProductService(product);
     return res.send(insertProduct);
   } catch (error) {
