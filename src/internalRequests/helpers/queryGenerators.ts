@@ -1,8 +1,8 @@
 import { productEntriesType } from "../types/productEntriesType";
 
 export const insertQGenerator = ({ keys, values }: productEntriesType) => {
-  let stringKeys = "(" + keys.toString() + ")";
-  let stringValues = "(" + values.toString() + ")";
+  const stringKeys = "(" + keys.toString() + ")";
+  const stringValues = "(" + values.toString() + ")";
   const query = `INSERT INTO products ${stringKeys} VALUES ${stringValues} RETURNING *`;
   return query;
 };
