@@ -17,6 +17,7 @@ app.use(express.json());
 app.use(express.text());
 app.use("/api", router);
 
+if (!PORT) throw new Error("invalid port");
 app.listen(PORT, () => {
   console.log(chalk.bgCyan(`listening on port ${PORT}`));
   connectionToMongoDb()
