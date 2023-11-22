@@ -16,17 +16,21 @@ app.use(express.json());
 app.use(express.text());
 app.use("/api", router);
 
+if (!PORT) throw new Error("invalid port");
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
+
   connectionToMongoDb()
     .then((message) => console.log(message))
     .catch((error) => console.log(error.message));
+
   connectionToPostgres()
     .then((message) => {
       console.log(message);
+
       initialData()
-        .then(message => console.log(message))
-        .catch(message => console.log(message))
+        .then((message) => console.log(message))
+        .catch((message) => console.log(message));
     })
     .catch((error) => console.log(error.message));
 });
