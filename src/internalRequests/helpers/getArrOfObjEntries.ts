@@ -1,8 +1,9 @@
 import { AdminProductInterface } from "../interfaces/adminProductINterface";
 
 export const getArrOfObjEntries = (obj: Partial<AdminProductInterface>) => {
-  const keys = Object.keys(obj);
+  let keys = Object.keys(obj);
   let values = Object.values(obj);
+  keys = keys.map((item) => (item = `"${item}"`));
   values = values.map((item) => (item = `'${item}'`));
   return { keys, values };
 };
