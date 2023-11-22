@@ -10,7 +10,7 @@ export const getProductByIdFromDb = async (id: string) => {
         await client.query('BEGIN');
         const product = await client.query(
             `SELECT
-            id, name, salePrice, quantity, description, category, discountPercentage, imageUrl, imageAlt
+            id, name, "salePrice", quantity, description, category, "discountPercentage", "imageUrl", "imageAlt"
             FROM products WHERE id = $1`,
             [id]
         );
@@ -30,7 +30,7 @@ export const getProductsBySearchFromDb = async (searchText: string) => {
         await client.query('BEGIN');        
         const products = await client.query(
             `SELECT
-            id, name, salePrice, quantity, description, category, discountPercentage, imageUrl, imageAlt
+            id, name, "salePrice", quantity, description, category, "discountPercentage", "imageUrl", "imageAlt"
             FROM products
             WHERE name ILIKE '%${searchText}%'
                 OR description ILIKE '%${searchText}%'
