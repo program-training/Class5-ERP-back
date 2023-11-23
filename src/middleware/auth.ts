@@ -1,8 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { verifyToken } from "../auth/model/jwt/jwt";
 
-// export const tokenArray: string = "token";
-
 export const requireAuth = (
   req: Request,
   res: Response,

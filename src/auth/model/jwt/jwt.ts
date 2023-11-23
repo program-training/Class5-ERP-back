@@ -2,7 +2,7 @@ import { UserInterface } from "../../interface/user";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 
-const key = process.env.JWT_KEY as string;
+const key = process.env.JWT_SECRET as string;
 
 export const generateAuthToken = (user: UserInterface) => {
   const { email, password } = user;

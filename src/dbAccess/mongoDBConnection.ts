@@ -1,7 +1,7 @@
 import { connect } from "mongoose";
 import "dotenv/config";
 
-const URL = process.env.MONGO_URI;
+const URL = process.env.MONGODB_URI;
 
 const connectionToDb = async () => {
   try {
