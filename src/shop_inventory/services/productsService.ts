@@ -36,6 +36,7 @@ export const updateProductsById = async (productsToUpdate: UpdateProductInterfac
     }
     await updateProductsInDb(productsToUpdate, action);
   }catch (error) {
+    console.log((error as Error).message);
     return Promise.reject(error);
   }
 }
