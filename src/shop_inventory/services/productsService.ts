@@ -5,7 +5,6 @@ import {
     updateProductsInDb
 }from "../dal/productsDal";
 import { exportIdsToArray, checkQuantity } from "../helpers/helpers";
-import { ShopProductInterface } from "../interfaces/shopProductInterface";
 import { UpdateProductInterface } from "../interfaces/updateProductInterface";
 
 export const getProductById = async (id: string) => {
@@ -40,13 +39,3 @@ export const updateProductsById = async (productsToUpdate: UpdateProductInterfac
     return Promise.reject(error);
   }
 }
-
-// export const addQuantityById = async (productsToUpdate: Pick<ShopProductInterface, "id" | "quantity">[]) => {
-//   const ids = productsToUpdate.map(product => product.id);
-//   try{
-//     await updateProductsInDb(productsToUpdate);
-//   }catch (error) {
-//     console.log(error);
-//     return Promise.reject(error);
-//   }
-// }
