@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import {handleError} from "../../utils/handleErrors";
 import {
+  addQuantityToProducts,
     getProductById,
     getProductsBySearch,
     updateProductsById,
@@ -37,8 +38,8 @@ export const handleGetProductsBySearch = async (req: Request, res: Response) => 
 export const handleUpdateProducts = async (req: Request, res: Response) => {
   try{
     const productsToUpdate = req.body;
-    await updateProductsById(productsToUpdate, '-');
-    res.send();
+    const response = await updateProductsById(productsToUpdate);
+    res.send(response);
   }catch (error) {
     if(error instanceof Object){
       res.status(400).send(error);
@@ -51,7 +52,7 @@ export const handleUpdateProducts = async (req: Request, res: Response) => {
 export const handleCancelOrder = async (req: Request, res: Response) => {
   try{
       const productsToUpdate = req.body;
-      await updateProductsById(productsToUpdate, '+');
+      await addQuantityToProducts(productsToUpdate);
       res.send();
   }catch (error) {
     handleError(res, error);
