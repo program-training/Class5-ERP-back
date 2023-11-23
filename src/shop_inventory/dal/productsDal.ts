@@ -48,7 +48,7 @@ export const getProductsBySearchFromDb = async (searchText: string) => {
 export const getProductsByIdFromDb = async (ids:string[]) => {
     try {
         const query = `SELECT
-        id, name, quantity
+        id, name, "salePrice", quantity, description, category, "discountPercentage", "imageUrl", "imageAlt"
         FROM products
         WHERE id IN (${ids});`;
 
