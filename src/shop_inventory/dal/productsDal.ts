@@ -47,15 +47,15 @@ export const getProductsBySearchFromDb = async (searchText: string) => {
 
 export const getProductsByIdFromDb = async (ids:string[]) => {
     try {
+        const query = `SELECT
+        id, name, quantity
+        FROM products
+        WHERE id IN (${ids});`;
+
         await client.query('BEGIN');        
-        const products = await client.query(
-            `SELECT
-            id, name, quantity
-            FROM products
-            WHERE id IN (${ids});`
-        );
+        const products = await client.query(query);
         await client.query('COMMIT');
-        
+                
         if (products.rows.length != ids.length){
             const onlyInIds = ids.filter(id => !products.rows.some(obj => obj.id === Number(id)));
             throw {
@@ -63,6 +63,7 @@ export const getProductsByIdFromDb = async (ids:string[]) => {
                 cause: "no product id"
             }
         }
+        
         return products.rows as ShopProductInterface[];
 
     } catch (error) {
