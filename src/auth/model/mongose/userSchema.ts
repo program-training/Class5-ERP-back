@@ -1,6 +1,6 @@
 import mongoose, { Schema, InferSchemaType, Model } from "mongoose";
 export const UserSchema = new Schema({
-  username: {
+  email: {
     type: String,
     required: true,
   },
