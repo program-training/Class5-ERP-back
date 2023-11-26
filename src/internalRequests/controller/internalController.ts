@@ -5,6 +5,7 @@ import {
   getAllProductsService,
   getProductByIdService,
   updateProductService,
+  updateQuantityService
 } from "../service/internalService";
 import { handleError } from "../../utils/handleErrors";
 
@@ -57,3 +58,16 @@ export const handleDeleteProductReq = async (req: Request, res: Response) => {
     handleError(res, error);
   }
 };
+
+
+export const handleUpdateQuantityReq = async (req: Request, res: Response) => {
+  try{
+    const {id} = req.params
+    const {quantity} = req.body;
+    const updateProduct = await updateQuantityService(id, quantity);
+    return res.send(updateProduct);
+  }catch (error){
+    console.log(error);
+    handleError(res, error);
+  }
+}
