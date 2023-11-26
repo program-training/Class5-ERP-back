@@ -86,7 +86,8 @@ export const updateQuantityService = async(id:string, quantity:number) => {
     const updateProduct = await new Promise(resolve => {
       setTimeout(() => {
         resolve(sendUpdateQuantityQuery(id, quantity));
-      }, 5000*quantity);
+      }, 1000);
+      // }, 5000*quantity);
     });
     
     return updateProduct;
