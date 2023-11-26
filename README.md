@@ -101,6 +101,96 @@ If the user is in the database and the password sent is correct, The response wi
 You are logged in!
 ```
 
+### inventory API (internal API)
+
+#### API to get all products (authorization required)
+
+##### Request
+
+```
+headers{
+  authorization: TOKEN
+}
+```
+
+```http
+  GET /api/inventory/
+```
+
+##### Response
+
+list of all the products
+
+#### API to get product by ID (authorization required)
+
+##### Request
+
+```
+headers{
+  authorization: TOKEN
+}
+```
+
+```http
+  GET /api/inventory/:id
+```
+
+##### Response
+
+the product with the ID
+
+##### Errors
+
+```
+ID must be number
+```
+
+```
+Product not found
+```
+
+```
+{
+  "error": "Unauthorized"
+}
+```
+
+#### API to add product (authorization required)
+
+##### Request
+
+```
+headers{
+  authorization: TOKEN
+}
+```
+
+body{
+  "name": string,
+  "salePrice": string,
+  "quantity": number,
+  "description": string ,
+  "category": string,
+  "discountPercentage": number,
+  "imageUrl": string,
+  "imageAlt": string,
+  "isForSale": boolean,
+  "costPrice": string,
+  "supplier": string,
+  "createdBy": string | default "admin"
+}
+```
+
+```http
+  POST /api/inventory/
+```
+
+##### Response
+
+the product that added
+
+##### Errors
+
 ### shop inventory API (External Api)
 
 #### API to get product by id
@@ -110,7 +200,7 @@ You are logged in!
 ```
 
 #### Response
-
+```
 {
 id: string;
 name: string;
@@ -122,6 +212,7 @@ discountPercentage : number;
 imageUrl:string;
 imageAlt: string;
 }
+```
 
 #### API to get product by search
 
@@ -145,16 +236,18 @@ An array of object, in each object there is the productId and the quntity to sub
 
 ##### Example:
 
+```
 [
-{
-"productId": "2",
-"requiredQuantity": 1
-},
-{
-"productId": "3",
-"requiredQuantity": 133
-}
+  {
+    "productId": "2",
+    "requiredQuantity": 1
+  },
+  {
+    "productId": "3",
+    "requiredQuantity": 133
+  }
 ]
+```
 
 #### Response
 
@@ -169,14 +262,15 @@ if one of the the id's wrong return an object with the id and the cause
 if there is not enough quantity the DB will not update and the response contain an array of object with the productId, in Inventory Quantity, and the amount that requested.
 
 ##### Response Example
-
+```
 [
-{
-"productId": "3",
-"requestQuantity": 133,
-"inInventory": 0
-}
+  {
+    "productId": "3",
+    "requestQuantity": 133,
+    "inInventory": 0
+  }
 ]
+```
 
 #### API to add quantity to products
 
@@ -190,16 +284,18 @@ An array of object, in each object there is the productId and the quantity to ad
 
 ##### Example:
 
+```
 [
-{
-"productId": "2",
-"requiredQuantity": 1
-},
-{
-"productId": "3",
-"requiredQuantity": 133
-}
+  {
+    "productId": "2",
+    "requiredQuantity": 1
+  },
+  {
+    "productId": "3",
+    "requiredQuantity": 133
+  }
 ]
+```
 
 #### Response
 
