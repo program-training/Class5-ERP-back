@@ -3,6 +3,7 @@ import {
   addNewProductService,
   deleteProductByIdService,
   getAllProductsService,
+  getMyProductsService,
   getProductByIdService,
   updateProductService,
   updateQuantityService
@@ -59,6 +60,15 @@ export const handleDeleteProductReq = async (req: Request, res: Response) => {
   }
 };
 
+export const handleGetMyProductsReq = async (req: Request, res: Response) => {
+  try {
+    const token = req.headers["authorization"];
+    const products = await getMyProductsService(token as string);
+    return res.send(products);
+  } catch (error) {
+    handleError(res, error);
+  }
+};
 
 export const handleUpdateQuantityReq = async (req: Request, res: Response) => {
   try{

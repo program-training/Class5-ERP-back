@@ -27,8 +27,8 @@ app.listen(PORT, () => {
     .then((message) => {
       console.log(chalk.magenta(message));
       initialData()
-        .then(message => console.log(chalk.cyan(message)))
-        .catch(message => console.log(chalk.redBright(message)))
+        .then((message) => console.log(chalk.cyan(message)))
+        .catch((message) => console.log(chalk.redBright(message)));
     })
-    .catch((error) =>  console.log(chalk.redBright(error.message)));
+    .catch((error) => console.log(chalk.redBright(error.message)));
 });
