@@ -5,6 +5,7 @@ import {
   sendGetAllProductsQuery,
   sendGetProductByIdQuery,
   sendUpdateProductQuery,
+  sendUpdateQuantityQuery,
 } from "../dal/internalDal";
 import { getArrOfObjEntries } from "../helpers/getArrOfObjEntries";
 import { AdminProductInterface } from "../interfaces/adminProductINterface";
@@ -79,3 +80,18 @@ export const getMyProductsService = async (token: string) => {
     return Promise.reject(error);
   }
 };
+
+export const updateQuantityService = async(id:string, quantity:number) => {
+  try {
+    const updateProduct = await new Promise(resolve => {
+      setTimeout(() => {
+        resolve(sendUpdateQuantityQuery(id, quantity));
+      }, 5000*quantity);
+    });
+    
+    return updateProduct;
+  } catch (error) {
+    console.log(error);
+    return Promise.reject(error);
+  }
+}

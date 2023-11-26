@@ -68,3 +68,15 @@ export const getMyProductsQuery = async (by: string) => {
     return Promise.reject(error);
   }
 };
+
+export const sendUpdateQuantityQuery = async (id:string, quantity:number) => {
+  try {
+    const query = queries.updateQuantityQ + quantity.toString() 
+    + "WHERE id=" +id+ "RETURNING *;"
+    const updateProduct = await client.query(query);
+    return updateProduct.rows;
+  } catch (error) {
+    console.log(error);
+    return Promise.reject(error);
+  }
+}
