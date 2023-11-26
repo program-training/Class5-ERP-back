@@ -3,6 +3,7 @@ import {
   addNewProductService,
   deleteProductByIdService,
   getAllProductsService,
+  getMyProductsService,
   getProductByIdService,
   updateProductService,
 } from "../service/internalService";
@@ -53,6 +54,16 @@ export const handleDeleteProductReq = async (req: Request, res: Response) => {
     const { id } = req.params;
     const deleting = await deleteProductByIdService(id);
     return res.send(`product ${deleting[0].name} deleted successfully`);
+  } catch (error) {
+    handleError(res, error);
+  }
+};
+
+export const handleGetMyProductsReq = async (req: Request, res: Response) => {
+  try {
+    const token = req.headers["authorization"];
+    const products = await getMyProductsService(token as string);
+    return res.send(products);
   } catch (error) {
     handleError(res, error);
   }

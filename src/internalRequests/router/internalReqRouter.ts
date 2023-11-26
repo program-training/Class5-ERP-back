@@ -3,6 +3,7 @@ import {
   handleAddProductReq,
   handleDeleteProductReq,
   handleGetAllProductsReq,
+  handleGetMyProductsReq,
   handleGetProductByIdReq,
   handleUpdateProductReq,
 } from "../controller/internalController";
@@ -11,6 +12,7 @@ import { requireAuth } from "../../middleware/auth";
 const internalRouter = express.Router();
 
 internalRouter.get("/", requireAuth, handleGetAllProductsReq);
+internalRouter.get("/products", requireAuth, handleGetMyProductsReq);
 internalRouter.get("/:id", requireAuth, handleGetProductByIdReq);
 internalRouter.post("/", requireAuth, handleAddProductReq);
 internalRouter.put("/:id", requireAuth, handleUpdateProductReq);

@@ -1,4 +1,5 @@
 import {
+  getMyProductsQuery,
   sendAddProductQuery,
   sendDeleteProductQuery,
   sendGetAllProductsQuery,
@@ -7,6 +8,7 @@ import {
 } from "../dal/internalDal";
 import { getArrOfObjEntries } from "../helpers/getArrOfObjEntries";
 import { AdminProductInterface } from "../interfaces/adminProductINterface";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 export const getAllProductsService = async () => {
   try {
@@ -21,7 +23,6 @@ export const getAllProductsService = async () => {
 export const getProductByIdService = async (id: string) => {
   try {
     if (Number.isNaN(+id)) throw new Error("id must be a number");
-
     const product = await sendGetProductByIdQuery(id);
     if (!product.length) throw new Error("Product not found");
 
@@ -63,6 +64,17 @@ export const deleteProductByIdService = async (id: string) => {
     const deleting = await sendDeleteProductQuery(id);
     if (!deleting.length) throw new Error("product not found");
     return deleting;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+export const getMyProductsService = async (token: string) => {
+  try {
+    const decodedToken = jwt.decode(token);
+    const { email } = decodedToken as JwtPayload;
+    const products = await getMyProductsQuery(email);
+    return products;
   } catch (error) {
     return Promise.reject(error);
   }
