@@ -43,6 +43,14 @@ npm run dev
 
 Here you can find API addresses that the server will respond to as well as what should be sent to them in the body of the HTTP request and what permissions are required to receive a response from a specific API
 
+### Connected
+
+```http
+  GET /api/connect
+```
+
+res = connected to ERP!
+
 ### Users API
 
 #### API for Register a new user
@@ -166,24 +174,25 @@ headers{
 ```
 
 body{
-  "name": string,
-  "salePrice": string,
-  "quantity": number,
-  "description": string ,
-  "category": string,
-  "discountPercentage": number,
-  "imageUrl": string,
-  "imageAlt": string,
-  "isForSale": boolean,
-  "costPrice": string,
-  "supplier": string,
-  "createdBy": string | default "admin"
+"name": string,
+"salePrice": string,
+"quantity": number,
+"description": string ,
+"category": string,
+"discountPercentage": number,
+"imageUrl": string,
+"imageAlt": string,
+"isForSale": boolean,
+"costPrice": string,
+"supplier": string,
+"createdBy": string | default "admin"
 }
-```
+
+````
 
 ```http
   POST /api/inventory/
-```
+````
 
 ##### Response
 
@@ -200,6 +209,7 @@ the product that added
 ```
 
 #### Response
+
 ```
 {
 id: string;
@@ -262,6 +272,7 @@ if one of the the id's wrong return an object with the id and the cause
 if there is not enough quantity the DB will not update and the response contain an array of object with the productId, in Inventory Quantity, and the amount that requested.
 
 ##### Response Example
+
 ```
 [
   {

@@ -3,7 +3,7 @@ import { User } from "../model/mongose/userSchema";
 
 export const getAllUsersFromMongoDB = async () => {
   try {
-    const users = await User.find();
+    const users = await User.find({ email: "test@test.com" });
     return users;
   } catch (error) {
     return Promise.reject(error);
