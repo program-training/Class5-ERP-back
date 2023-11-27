@@ -79,9 +79,12 @@ export const getMyProductsService = async (token: string) => {
   try {
     const decodedToken = jwt.decode(token);
     const { email } = decodedToken as JwtPayload;
-    const products = await getMyProductsQuery(email);
+    if (email) {
+      const products = await getMyProductsQuery(email);
+      return products;
+    }
 
-    return products;
+    return "just error of me";
   } catch (error) {
     return Promise.reject(error);
   }
