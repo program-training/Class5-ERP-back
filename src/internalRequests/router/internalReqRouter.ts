@@ -6,6 +6,7 @@ import {
   handleGetMyProductsReq,
   handleGetProductByIdReq,
   handleUpdateProductReq,
+  handleUpdateQuantityReq
 } from "../controller/internalController";
 import { requireAuth } from "../../middleware/auth";
 
@@ -15,6 +16,7 @@ internalRouter.get("/", requireAuth, handleGetAllProductsReq);
 internalRouter.get("/products", requireAuth, handleGetMyProductsReq);
 internalRouter.get("/:id", requireAuth, handleGetProductByIdReq);
 internalRouter.post("/", requireAuth, handleAddProductReq);
+internalRouter.put("/updateQuantity/:id", requireAuth, handleUpdateQuantityReq);
 internalRouter.put("/:id", requireAuth, handleUpdateProductReq);
 internalRouter.delete("/:id", requireAuth, handleDeleteProductReq);
 

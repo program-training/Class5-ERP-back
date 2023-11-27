@@ -9,7 +9,7 @@ import initialData from "./utils/initialData";
 import chalk from "chalk";
 
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
 app.use(morganLogger);
 app.use(cors);

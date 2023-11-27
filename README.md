@@ -59,7 +59,7 @@ res = connected to ERP!
   POST /api/users/signup
 ```
 
-#### Request
+##### Request
 
 In the request body you will need to provide an object with the following keys and values
 
@@ -71,7 +71,7 @@ In the request body you will need to provide an object with the following keys a
 - "password" must be at least eight characters long and contain an uppercase letter, a lowercase letter, a number and one of the following characters !@#$%^&\*-
 - "email" must be a standard email
 
-#### Response
+##### Response
 
 Example of a response from this end point
 
@@ -89,7 +89,7 @@ Example of a response from this end point
   POST /api/users/signin
 ```
 
-#### Request
+##### Request
 
 In the request body you will need to provide an object with the following keys and values
 
@@ -101,7 +101,7 @@ In the request body you will need to provide an object with the following keys a
 - "email" must be a standard email
 - "password" must be at least nine characters long and contain an uppercase letter, a lowercase letter, a number and one of the following characters !@#$%^&\*-
 
-#### Response
+##### Response
 
 If the user is in the database and the password sent is correct, The response will be a the following string with status code 201
 
@@ -198,7 +198,97 @@ body{
 
 the product that added
 
-##### Errors
+#### API to update Quantity in product (authorization required)
+
+- the quantity update will take some time...
+
+##### Request
+
+```http
+  PUT /api/inventory/updateQuantity/:id
+```
+
+```
+headers{
+  authorization: TOKEN
+}
+```
+
+- need to send all fields!!!
+
+```
+body{
+  "name": string,
+  "salePrice": string,
+  "quantity": number,
+  "description": string ,
+  "category": string,
+  "discountPercentage": number,
+  "imageUrl": string,
+  "imageAlt": string,
+  "isForSale": boolean,
+  "costPrice": string,
+  "supplier": string,
+  "createdBy": string | default "admin"
+}
+```
+
+##### Response
+
+the updated product
+
+#### API to update product details (authorization required)
+
+##### Request
+
+```http
+  PUT /api/inventory/:id
+```
+
+```
+headers{
+  authorization: TOKEN
+}
+```
+
+```
+body{
+  "name": string,
+  "salePrice": string,
+  "quantity": number,
+  "description": string ,
+  "category": string,
+  "discountPercentage": number,
+  "imageUrl": string,
+  "imageAlt": string,
+  "isForSale": boolean,
+  "costPrice": string,
+  "supplier": string,
+  "createdBy": string | default "admin"
+}
+```
+
+##### Response
+
+the updated product
+
+#### API to delete product (authorization required)
+
+##### Request
+
+```http
+  DELETE /api/inventory/:id
+```
+
+```
+headers{
+  authorization: TOKEN
+}
+```
+
+##### Response
+
+message that the product was deleted successfully.
 
 ### shop inventory API (External Api)
 
@@ -212,15 +302,15 @@ the product that added
 
 ```
 {
-id: string;
-name: string;
-salePrice: number;
-quantity : number;
-description : string;
-category: string;
-discountPercentage : number;
-imageUrl:string;
-imageAlt: string;
+  id: string;
+  name: string;
+  salePrice: number;
+  quantity : number;
+  description : string;
+  category: string;
+  discountPercentage : number;
+  imageUrl:string;
+  imageAlt: string;
 }
 ```
 
@@ -230,9 +320,9 @@ imageAlt: string;
   POST /api/shop_inventory?searchText=<text to search>
 ```
 
-#### Response
+##### Response
 
-product that match to the search in the name, category, or description.
+product that match to the searchText in the name, category, or description.
 
 #### API to subtruct quantity from products
 
@@ -240,9 +330,9 @@ product that match to the search in the name, category, or description.
   POST /api/shop_inventory/updateInventory
 ```
 
-#### Request
+##### Request
 
-An array of object, in each object there is the productId and the quntity to subtruct
+An array of object, in each object there is the productId and the quntity to subtruct.
 
 ##### Example:
 
@@ -261,9 +351,30 @@ An array of object, in each object there is the productId and the quntity to sub
 
 #### Response
 
-##### Success
-
-code 200
+```
+{
+    "inStock": [{
+            "productId": 10,
+            "requiredQuantity": 1
+        }], // list of all the products in stock
+    "notInStock": [
+        {
+            "product": {
+                "id": 1,
+                "name": "Blue T-Shirt",
+                "salePrice": "19.99",
+                "quantity": 1,
+                "description": "Cotton short sleeve t-shirt",
+                "category": "Apparel",
+                "discountPercentage": 0,
+                "imageUrl": "https://cdn.discordapp.com/attachments/1061944547246088242/1175870410601009272/meir_asulin_Cotton_short_sleeve_t-shirt_blue_71fa9687-e15c-4961-ba15-eac5122b3c51.png",
+                "imageAlt": "Blue t-shirt"
+            },
+            "requiredQuantity": 3
+        }
+    ]
+}
+```
 
 ##### Error
 
