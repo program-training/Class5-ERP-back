@@ -7,7 +7,6 @@ export const sendGetAllProductsQuery = async () => {
   try {
     client.connect();
     const data = await client.query(queries.getAllProductsQ);
-    client.end();
     return data.rows;
   } catch (error) {
     return Promise.reject(error);
@@ -63,6 +62,7 @@ export const getMyProductsQuery = async (by: string) => {
   try {
     const query = `SELECT * FROM products WHERE createdBy ILIKE ${by}`;
     const products = await client.query(query);
+
     return products.rows;
   } catch (error) {
     return Promise.reject(error);
