@@ -6,7 +6,7 @@ import {
   handleGetMyProductsReq,
   handleGetProductByIdReq,
   handleUpdateProductReq,
-  handleUpdateQuantityReq
+  handleUpdateQuantityReq,
 } from "../controller/internalController";
 import { requireAuth } from "../../middleware/auth";
 
