@@ -63,6 +63,7 @@ export const getMyProductsQuery = async (by: string) => {
   try {
     const query = `SELECT * FROM products WHERE createdBy ILIKE ${by}`;
     const products = await client.query(query);
+
     return products.rows;
   } catch (error) {
     return Promise.reject(error);

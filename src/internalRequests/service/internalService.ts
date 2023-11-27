@@ -33,11 +33,15 @@ export const getProductByIdService = async (id: string) => {
 };
 
 export const addNewProductService = async (
-  product: Omit<AdminProductInterface, "id">
+  product: Omit<AdminProductInterface, "id">,
+  token: string
 ) => {
   try {
+    const decodedToken = jwt.decode(token);
+    const { email } = decodedToken as JwtPayload;
     if (product.name === undefined)
       throw new Error("please provide valid product");
+    product.createdBy = email;
     const entries = getArrOfObjEntries(product);
     const newProduct = await sendAddProductQuery(entries);
     return newProduct;
@@ -74,6 +78,7 @@ export const getMyProductsService = async (token: string) => {
     const decodedToken = jwt.decode(token);
     const { email } = decodedToken as JwtPayload;
     const products = await getMyProductsQuery(email);
+
     return products;
   } catch (error) {
     return Promise.reject(error);

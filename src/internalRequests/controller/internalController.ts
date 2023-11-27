@@ -31,7 +31,8 @@ export const handleGetProductByIdReq = async (req: Request, res: Response) => {
 export const handleAddProductReq = async (req: Request, res: Response) => {
   try {
     const product = req.body;
-    const insertProduct = await addNewProductService(product);
+    const token = req.headers.authorization as string;
+    const insertProduct = await addNewProductService(product, token);
     return res.send(insertProduct);
   } catch (error) {
     handleError(res, error);
