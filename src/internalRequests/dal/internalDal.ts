@@ -7,7 +7,6 @@ export const sendGetAllProductsQuery = async () => {
   try {
     client.connect();
     const data = await client.query(queries.getAllProductsQ);
-    client.end();
     return data.rows;
   } catch (error) {
     return Promise.reject(error);
