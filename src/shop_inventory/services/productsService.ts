@@ -26,16 +26,25 @@ export const getProductsBySearch = async (searchText: string) => {
   }
 }
 
-export const updateProductsById = async (productsToUpdate: UpdateProductInterface[], action:'-'|'+') => {
+export const updateProductsById = async (productsToUpdate: UpdateProductInterface[]) => {
   const ids = exportIdsToArray(productsToUpdate);
   
   try {
     const productsToUpdateFromDb = await getProductsByIdFromDb(ids);
-    if(action === '-'){
-      checkQuantity(productsToUpdate, productsToUpdateFromDb);
-    }
-    await updateProductsInDb(productsToUpdate, action);
+    const response = checkQuantity(productsToUpdate, productsToUpdateFromDb);
+    await updateProductsInDb(productsToUpdate, "-");
+    return response;
   }catch (error) {
+    console.log((error as Error).message);
+    return Promise.reject(error);
+  }
+}
+
+export const addQuantityToProducts = async (productsToUpdate: UpdateProductInterface[]) => {
+  try {
+    await updateProductsInDb(productsToUpdate, "+");
+  }catch (error) {
+    console.log((error as Error).message);
     return Promise.reject(error);
   }
 }

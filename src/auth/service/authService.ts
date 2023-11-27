@@ -20,7 +20,7 @@ export const register = async (user: UserInterface): UserResult => {
     const users = await getUsers();
 
     const userRegistered = users.find(
-      (userInDB) => userInDB.username === user.username
+      (userInDB) => userInDB.email === user.email
     );
 
     if (userRegistered) throw new Error("This user is allready registered!");
@@ -41,9 +41,7 @@ export const login = async (userFromClient: UserInterface) => {
     if (!users)
       throw new Error("Oops... Could not get the users from the Database");
 
-    const userInDB = users.find(
-      (user) => userFromClient.username === user.username
-    );
+    const userInDB = users.find((user) => userFromClient.email === user.email);
 
     if (!userInDB) throw new Error("The email or password is incorrect!");
     // const userCopy = { ...userInDB };

@@ -1,7 +1,9 @@
 import { Pool } from "pg";
 import "dotenv/config";
 
-export const client = new Pool({ connectionString: process.env.SQL_URI });
+export const client = new Pool({
+  connectionString: process.env.POSTGRESQL_CONNECTION_STRING,
+});
 
 export const connectionToPostgres = async () => {
   try {

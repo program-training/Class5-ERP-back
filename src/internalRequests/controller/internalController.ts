@@ -3,8 +3,10 @@ import {
   addNewProductService,
   deleteProductByIdService,
   getAllProductsService,
+  getMyProductsService,
   getProductByIdService,
   updateProductService,
+  updateQuantityService
 } from "../service/internalService";
 import { handleError } from "../../utils/handleErrors";
 
@@ -30,7 +32,8 @@ export const handleGetProductByIdReq = async (req: Request, res: Response) => {
 export const handleAddProductReq = async (req: Request, res: Response) => {
   try {
     const product = req.body;
-    const insertProduct = await addNewProductService(product);
+    const token = req.headers.authorization as string;
+    const insertProduct = await addNewProductService(product, token);
     return res.send(insertProduct);
   } catch (error) {
     handleError(res, error);
@@ -57,3 +60,25 @@ export const handleDeleteProductReq = async (req: Request, res: Response) => {
     handleError(res, error);
   }
 };
+
+export const handleGetMyProductsReq = async (req: Request, res: Response) => {
+  try {
+    const token = req.headers["authorization"];
+    const products = await getMyProductsService(token as string);
+    return res.send(products);
+  } catch (error) {
+    handleError(res, error);
+  }
+};
+
+export const handleUpdateQuantityReq = async (req: Request, res: Response) => {
+  try{
+    const {id} = req.params
+    const {quantity} = req.body;
+    const updateProduct = await updateQuantityService(id, quantity);
+    return res.send(updateProduct);
+  }catch (error){
+    console.log(error);
+    handleError(res, error);
+  }
+}

@@ -9,7 +9,7 @@ import initialData from "./utils/initialData";
 import chalk from "chalk";
 
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
 app.use(morganLogger);
 app.use(cors);
@@ -27,8 +27,8 @@ app.listen(PORT, () => {
     .then((message) => {
       console.log(chalk.magenta(message));
       initialData()
-        .then(message => console.log(chalk.cyan(message)))
-        .catch(message => console.log(chalk.redBright(message)))
+        .then((message) => console.log(chalk.cyan(message)))
+        .catch((message) => console.log(chalk.redBright(message)));
     })
-    .catch((error) =>  console.log(chalk.redBright(error.message)));
+    .catch((error) => console.log(chalk.redBright(error.message)));
 });

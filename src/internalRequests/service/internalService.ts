@@ -1,12 +1,16 @@
+import { string } from "joi";
 import {
+  getMyProductsQuery,
   sendAddProductQuery,
   sendDeleteProductQuery,
   sendGetAllProductsQuery,
   sendGetProductByIdQuery,
   sendUpdateProductQuery,
+  sendUpdateQuantityQuery,
 } from "../dal/internalDal";
 import { getArrOfObjEntries } from "../helpers/getArrOfObjEntries";
 import { AdminProductInterface } from "../interfaces/adminProductINterface";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 export const getAllProductsService = async () => {
   try {
@@ -21,7 +25,6 @@ export const getAllProductsService = async () => {
 export const getProductByIdService = async (id: string) => {
   try {
     if (Number.isNaN(+id)) throw new Error("id must be a number");
-
     const product = await sendGetProductByIdQuery(id);
     if (!product.length) throw new Error("Product not found");
 
@@ -32,11 +35,15 @@ export const getProductByIdService = async (id: string) => {
 };
 
 export const addNewProductService = async (
-  product: Omit<AdminProductInterface, "id">
+  product: Omit<AdminProductInterface, "id">,
+  token: string
 ) => {
   try {
+    const decodedToken = jwt.decode(token);
+    const { email } = decodedToken as JwtPayload;
     if (product.name === undefined)
       throw new Error("please provide valid product");
+    product.createdBy = email;
     const entries = getArrOfObjEntries(product);
     const newProduct = await sendAddProductQuery(entries);
     return newProduct;
@@ -67,3 +74,34 @@ export const deleteProductByIdService = async (id: string) => {
     return Promise.reject(error);
   }
 };
+
+export const getMyProductsService = async (token: string) => {
+  try {
+    const decodedToken = jwt.decode(token);
+    const { email } = decodedToken as JwtPayload;
+    if (email) {
+      const products = await getMyProductsQuery(email);
+      return products;
+    }
+
+    return "just error of me";
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+export const updateQuantityService = async(id:string, quantity:number) => {
+  try {
+    const updateProduct = await new Promise(resolve => {
+      setTimeout(() => {
+        resolve(sendUpdateQuantityQuery(id, quantity));
+      }, 1000);
+      // }, 5000*quantity);
+    });
+    
+    return updateProduct;
+  } catch (error) {
+    console.log(error);
+    return Promise.reject(error);
+  }
+}

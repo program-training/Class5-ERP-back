@@ -3,7 +3,7 @@ import { UserInterface } from "../../interface/user";
 
 const userValidation = (user: UserInterface) => {
   const schema = Joi.object({
-    username: Joi.string().required(),
+    email: Joi.string().required(),
 
     password: Joi.string()
       .ruleset.regex(
