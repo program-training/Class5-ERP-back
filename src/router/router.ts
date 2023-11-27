@@ -8,6 +8,7 @@ const router = express.Router();
 router.use("/users", routerAuth);
 router.use("/shop_inventory", productsRouter);
 router.use("/inventory", internalRouter);
+
 router.get("/connect", (req: Request, res: Response) => {
   try {
     res.send("connected to ERP!");
