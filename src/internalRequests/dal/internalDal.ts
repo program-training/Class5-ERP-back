@@ -6,7 +6,6 @@ import queries from "../utils/queries";
 
 export const sendGetAllProductsQuery = async () => {
   try {
-    client.connect();
     const data = await client.query(queries.getAllProductsQ);
     return data.rows;
   } catch (error) {
@@ -75,14 +74,18 @@ export const getMyProductsQuery = async (by: string) => {
   }
 };
 
-export const sendUpdateQuantityQuery = async (id:string, quantity:number) => {
+export const sendUpdateQuantityQuery = async (id: string, quantity: number) => {
   try {
-    const query = queries.updateQuantityQ + quantity.toString() 
-    + "WHERE id=" +id+ "RETURNING *;"
+    const query =
+      queries.updateQuantityQ +
+      quantity.toString() +
+      "WHERE id=" +
+      id +
+      "RETURNING *;";
     const updateProduct = await client.query(query);
     return updateProduct.rows;
   } catch (error) {
     console.log(error);
     return Promise.reject(error);
   }
-}
+};
