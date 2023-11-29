@@ -1,4 +1,3 @@
-import { describe, test, expect } from "vitest";
 import {
   addQuantityToProducts,
   getProductById,
@@ -31,7 +30,7 @@ describe("getProductsBySearch function", () => {
     const searchText = "shirt";
     const result = await getProductsBySearch(searchText);
     const toCheck = result[0].name + result[0].category + result[0].description;
-    expect(toCheck).contain(searchText);
+    expect(toCheck).toContain(searchText);
   });
 });
 
