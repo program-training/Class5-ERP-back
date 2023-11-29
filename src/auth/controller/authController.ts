@@ -24,6 +24,7 @@ export const handleLogin = async (req: Request, res: Response) => {
     if (error?.details[0].message) throw new Error(error?.details[0].message);
 
     const token = await login(userFromClient);
+
     return res.send(token);
   } catch (error) {
     handleError(res, error, 401);

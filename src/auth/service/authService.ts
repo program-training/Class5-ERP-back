@@ -38,9 +38,9 @@ export const register = async (user: UserInterface): UserResult => {
 export const login = async (userFromClient: UserInterface) => {
   try {
     const users = await getAllUsersFromMongoDB();
+
     if (!users)
       throw new Error("Oops... Could not get the users from the Database");
-
     const userInDB = users.find((user) => userFromClient.email === user.email);
 
     if (!userInDB) throw new Error("The email or password is incorrect!");
