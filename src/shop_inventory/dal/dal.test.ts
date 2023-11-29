@@ -1,6 +1,6 @@
 import {
   getProductByIdFromDb,
-  getProductsBySearchFromDb
+  getProductsBySearchFromDb,
 } from "../dal/productsDal";
 
 describe("getProductByIdFromDb function", () => {
@@ -23,11 +23,12 @@ describe("getProductByIdFromDb function", () => {
   });
 });
 
-// describe("getProductsBySearchFromDb function", () => {
-//   it("return search item", async () => {
-//     const searchText = "shirt";
-//     const result = await getProductsBySearchFromDb(searchText);
-//     const toCheck = result[0].name + result[0].category + result[0].description;
-//     expect(toCheck).toContain(searchText);
-//   });
-// });
+describe("getProductsBySearchFromDb function", () => {
+  it("return search item", async () => {
+    const searchText = "shirt";
+    const result = await getProductsBySearchFromDb(searchText);
+    const toCheck = result[0].name + result[0].category + result[0].description;
+    expect(toCheck).toContain(searchText);
+  });
+});
+
