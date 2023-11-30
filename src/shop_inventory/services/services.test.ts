@@ -38,7 +38,7 @@ describe("updateProductsById function", () => {
   test("return proper response", async () => {
     const testReq = [
       {
-        productId: "10",
+        productId: "1",
         requiredQuantity: 1,
       },
     ];
@@ -49,7 +49,7 @@ describe("updateProductsById function", () => {
 
 describe("addQuantityToProducts function", () => {
   test("add quantity to products", async () => {
-    const productId = "10";
+    const productId = "1";
     const prevQuantity = (await getProductById(productId)).quantity;
     const requiredQuantity = 1;
 
