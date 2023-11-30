@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "./dist/server.js",
-  "engines": {
-    "node": "14.x"
-  },
   "scripts": {
     "dev": "nodemon --watch dist --exec node dist/server.js",
     "test": "vitest run",
