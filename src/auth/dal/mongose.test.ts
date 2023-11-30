@@ -1,12 +1,30 @@
 import { getAllUsersFromMongoDB } from "./mongose";
-import { UserInterface } from "../interface/user";
+import { User } from "../model/mongose/userSchema";
 
-describe(" -  fetch users from dataBase", () => {
-  test("test to get all users", async () => {
+describe("getAllUsersFromMongoDB", () => {
+  it("should return all users on success", async () => {
+    const users = [
+      {
+        email: "1234",
+        password: "John",
+      },
+      {
+        email: "5678",
+        password: "Jane",
+      },
+    ];
+
+    jest.spyOn(User, "find").mockResolvedValueOnce(users);
+
     const result = await getAllUsersFromMongoDB();
-    // expect(result).toEqual(UserInterface[]);
+
+    expect(User.find).toHaveBeenCalled();
+    expect(result).toEqual(users);
   });
-  //   test("test if user not exsist", async () => {
-  //     await expect(fetchUserData(100)).rejects.toThrowError();
-  //   });
+
+  it("should return rejected promise on error", async () => {
+    jest.spyOn(User, "find").mockRejectedValueOnce(new Error("Oops"));
+
+    await expect(getAllUsersFromMongoDB()).rejects.toThrow("Oops");
+  });
 });
