@@ -1,3 +1,4 @@
+import ServerError from "../../utils/serverErrorClass";
 import {
     getProductByIdFromDb,
     getProductsBySearchFromDb,
@@ -7,9 +8,12 @@ import {
 import { exportIdsToArray, checkQuantity } from "../helpers/helpers";
 import { UpdateProductInterface } from "../interfaces/updateProductInterface";
 
-export const getProductById = async (id: string) => {
+export const getProductById = async (id: string | number) => {
     try {
-      const product = await getProductByIdFromDb(id);
+      
+      if(Number.isNaN(+id)) throw new ServerError(404, 'Id must be a number');
+
+      const product = await getProductByIdFromDb(id.toString());
       return product;
     } catch (error) {
       return Promise.reject(error);
