@@ -13,8 +13,8 @@ export const exportIdsToArray = (products:UpdateProductInterface[]) => {
   }
   
 export const checkQuantity = (productsToUpdate:UpdateProductInterface[],
-                              productsToUpdateFromDb:ShopProductInterface[]) => {
-    
+                              productsToUpdateFromDb:ShopProductInterface[]) => 
+                              {
     const notInStock = [];
     const inStock = [];
     for(let i = 0; i < productsToUpdate.length; i++){
