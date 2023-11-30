@@ -15,7 +15,7 @@ app.use(morganLogger);
 app.use(cors);
 app.use(express.json());
 app.use(express.text());
-app.use("/api", router);
+app.use("/", router);
 
 if (!PORT) throw new Error("invalid port");
 app.listen(PORT, () => {
