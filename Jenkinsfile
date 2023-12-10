@@ -15,7 +15,7 @@ pipeline {
             steps {
                 script {
                     dir('server') {
-                        sh 'echo "Building..."'
+                        sh 'echo "Buildingkkkkkk..."'
                         sh 'docker build -t class5-erp-back .'
                     }
                 }
