@@ -14,7 +14,7 @@ pipeline {
         stage('client build') {
             steps {
                 script {
-                        sh 'echo "Building..."'
+                        sh 'echo "Buildinglll..."'
                         sh 'docker build -t class5-erp-back .'  
                 }
             }
