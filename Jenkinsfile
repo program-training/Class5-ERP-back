@@ -14,10 +14,8 @@ pipeline {
         stage('client build') {
             steps {
                 script {
-                    dir('src') {
                         sh 'echo "Building..."'
-                        sh 'docker build -t class5-erp-back .'
-                    }
+                        sh 'docker build -t class5-erp-back .'  
                 }
             }
         }
