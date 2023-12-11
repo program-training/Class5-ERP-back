@@ -1,9 +1,9 @@
 import ServerError from "../../utils/serverErrorClass";
 import { productMock, productKeys } from "../helpers/mocks";
 import {
-  addQuantityToProducts,
-  getProductById,
-  getProductsBySearch,
+  addQuantityToProductsService,
+  getProductByIdService,
+  getProductsBySearchService,
   updateProductsById,
 } from "./productsService";
 
@@ -11,7 +11,7 @@ const ID = "123";
 const NUM_ID = 123;
 
 
-describe("getProductById function", () => {
+describe("getProductByIdService function", () => {
 
     const mockGetProductByIdFromDb = jest.fn();
 
@@ -20,25 +20,25 @@ describe("getProductById function", () => {
     });
 
     it('should throw error if id is not number', async () => { 
-      await expect(getProductById('abc')).rejects.toThrow(ServerError);
+      await expect(getProductByIdService('abc')).rejects.toThrow(ServerError);
     });
 
     it('should reject with error from db', async () => { 
       const errorMessage = "product not found";
       mockGetProductByIdFromDb.mockRejectedValue(new Error(errorMessage));
 
-      await expect(getProductById(123452345)).rejects.toThrow(errorMessage);
+      await expect(getProductByIdService(123452345)).rejects.toThrow(errorMessage);
     });
 
     it('should resolve with product on success', async () => {
       
       mockGetProductByIdFromDb.mockResolvedValue(productMock);
-      const result = await getProductById(123);
+      const result = await getProductByIdService(123);
       expect(result).toEqual(productMock);
     });
 
     it("test with number:", async () => {  
-      const result = await getProductById(NUM_ID);
+      const result = await getProductByIdService(NUM_ID);
       expect(Object.keys(result)).toEqual(productKeys);
     });
 });
@@ -46,7 +46,7 @@ describe("getProductById function", () => {
 describe("getProductsBySearch function", () => {
   it("return search item", async () => {
     const searchText = "shirt";
-    const result = await getProductsBySearch(searchText);
+    const result = await getProductsBySearchService(searchText);
     const toCheck = result[0].name + result[0].category + result[0].description;
     expect(toCheck).toContain(searchText);
   });
@@ -65,9 +65,9 @@ describe("updateProductsById function", () => {
   });
 });
 
-describe("addQuantityToProducts function", () => {
+describe("addQuantityToProductsService function", () => {
   test("add quantity to products", async () => {
-    const prevQuantity = (await getProductById(ID)).quantity;
+    const prevQuantity = (await getProductByIdService(ID)).quantity;
     const requiredQuantity = 1;
 
     const testReq = [
@@ -77,8 +77,8 @@ describe("addQuantityToProducts function", () => {
       },
     ];
 
-    await addQuantityToProducts(testReq);
-    const currentQuantity = (await getProductById(ID)).quantity;
+    await addQuantityToProductsService(testReq);
+    const currentQuantity = (await getProductByIdService(ID)).quantity;
     const result = currentQuantity - prevQuantity;
 
     expect(result).toEqual(requiredQuantity);
