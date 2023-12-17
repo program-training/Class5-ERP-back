@@ -10,6 +10,7 @@ export const sendGetAllProductsQuery = async () => {
     const data = await client.query(queries.getAllProductsQ);
     return data.rows;
   } catch (error) {
+    console.log(error);
     return Promise.reject(error);
   }
 };
@@ -40,7 +41,7 @@ export const sendUpdateProductQuery = async (
   entries: productEntriesType
 ) => {
   try {
-    const query = updateQGenerator(id, entries);
+    const query = updateQGenerator(id, entries);    
     const data = await client.query(query);
     return data.rows;
   } catch (error) {
@@ -62,12 +63,7 @@ export const sendDeleteProductQuery = async (id: string) => {
 export const getMyProductsQuery = async (by: string) => {
   try {
     const query = `SELECT * FROM products WHERE "createdBy" ILIKE '${by}'`;
-
     const products = await client.query(query);
-    if (!products.rows.length)
-      throw new Error(
-        "To view the products you have added, you must add products first"
-      );
 
     return products.rows;
   } catch (error) {

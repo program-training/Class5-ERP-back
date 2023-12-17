@@ -1,9 +1,9 @@
 import { createClient } from "redis";
 import 'dotenv/config'
 
-const client = createClient({url: process.env.REDIS_CONNECTION_STRING})
+export const client = createClient({url: process.env.REDIS_CONNECTION_STRING})
 
-export default async function connectToRedis () {
+export async function connectToRedis () {
     try {        
         await client.connect()
         return 'connected to redis'
