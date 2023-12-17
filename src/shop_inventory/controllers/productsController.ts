@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import {handleError} from "../../utils/handleErrors";
 import {
-  addQuantityToProductsService,
-  getProductByIdService,
-  getProductsBySearchService,
+  addQuantityToProducts,
+    getProductById,
+    getProductsBySearch,
     updateProductsById,
 }from "../services/productsService";
 import ServerError from "../../utils/serverErrorClass";
@@ -14,7 +14,7 @@ export const handleGetProductById = async (req: Request, res: Response) => {
       if(Number.isNaN(+productId)) {
         throw new ServerError(404, 'Id must be a number');
       }
-      const product = await getProductByIdService(productId);
+      const product = await getProductById(productId);
       res.send(product);
     } catch (error) {
       handleError(res, error);
@@ -28,7 +28,7 @@ export const handleGetProductsBySearch = async (req: Request, res: Response) => 
       throw new ServerError(403, 'Query params not valid');
     };
     const searchText = query.searchText as string;
-    const products = await getProductsBySearchService(searchText);
+    const products = await getProductsBySearch(searchText);
     res.send(products);
   }catch (error) {
     handleError(res, error);
@@ -52,7 +52,7 @@ export const handleUpdateProducts = async (req: Request, res: Response) => {
 export const handleCancelOrder = async (req: Request, res: Response) => {
   try{
       const productsToUpdate = req.body;
-      await addQuantityToProductsService(productsToUpdate);
+      await addQuantityToProducts(productsToUpdate);
       res.send();
   }catch (error) {
     handleError(res, error);
