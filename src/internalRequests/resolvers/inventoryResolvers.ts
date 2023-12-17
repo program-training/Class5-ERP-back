@@ -48,6 +48,8 @@ export const updateProduct = async (_: any, args: any, {token}: any) => {
   try {
     graphQlAuthCheck(token);
     const {  input: { product, id  }} = args;
+    console.log('id', id);
+    
     const updatedProduct = await updateProductService(id, product);
     return updatedProduct[0];
   } catch (error) {

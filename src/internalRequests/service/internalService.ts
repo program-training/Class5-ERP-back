@@ -13,9 +13,15 @@ import { getArrOfObjEntries } from "../helpers/getArrOfObjEntries";
 import { AdminProductInterface } from "../interfaces/adminProductINterface";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import ServerError from "../../utils/serverErrorClass";
+import { addProductToRedis, deleteProductRedis, getMyProductsRedis, getProductByIdRedis, getProductsRedis, updateProductRedis } from "../redis/redisProducts";
 
 export const getAllProductsService = async () => {
   try {
+    const productsFromRedis = await getProductsRedis();
+    if(productsFromRedis?.length !== 0) {
+      return productsFromRedis;
+    }
+    
     const products = await sendGetAllProductsQuery();
     if (!products.length) throw new Error("No products");
     return products;
@@ -27,10 +33,14 @@ export const getAllProductsService = async () => {
 export const getProductByIdService = async (id: string) => {
   try {
     if (Number.isNaN(+id)) throw new Error("id must be a number");
+    const productFromRedis = await getProductByIdRedis(id);
+
+    if(productFromRedis) return productFromRedis;
+
     const product = await sendGetProductByIdQuery(id);
     if (!product.length) throw new Error("Product not found");
 
-    return product;
+    return product[0];
   } catch (error) {
     return Promise.reject(error);
   }
@@ -48,6 +58,7 @@ export const addNewProductService = async (
     product.createdBy = email;
     const entries = getArrOfObjEntries(product);
     const newProduct = await sendAddProductQuery(entries);
+    await addProductToRedis(newProduct[0] as AdminProductInterface);
     return newProduct;
   } catch (error) {
     return Promise.reject(error);
@@ -58,11 +69,10 @@ export const updateProductService = async (
   id: string,
   update: Omit<AdminProductInterface, "id">
 ) => {
-  try {
-    console.log('updating. pr:', update);
-    
+  try {    
     const entries = getArrOfObjEntries(update);
     const updatedProduct = await sendUpdateProductQuery(id, entries);
+    await updateProductRedis(updatedProduct[0] as AdminProductInterface);
     return updatedProduct;
   } catch (error) {
     return Promise.reject(error);
@@ -73,6 +83,7 @@ export const deleteProductByIdService = async (id: string) => {
   try {    
     const deleting = await sendDeleteProductQuery(id);
     if (!deleting.length) throw new Error("product not found");
+    await deleteProductRedis(id);
     return deleting;
   } catch (error) {
     return Promise.reject(error);
@@ -84,11 +95,12 @@ export const getMyProductsService = async (token: string) => {
     const decodedToken = jwt.decode(token);
     const { email } = decodedToken as JwtPayload;
     if (email) {
+      // await getMyProductsRedis(email);
       const products = await getMyProductsQuery(email);
       return products;
     }
 
-    return "just error of me";
+    return [];
   } catch (error) {
     return Promise.reject(error);
   }

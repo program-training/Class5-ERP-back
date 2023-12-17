@@ -7,7 +7,7 @@ import express from "express";
 import morganLogger from "./logger/morgan";
 import corsHandler from "./cors/cors";
 import { handleServerError } from "./utils/handleErrors";
-import connectToRedis from "./dbAccess/redisConnection";
+import { connectToRedis } from "./dbAccess/redisConnection";
 
 const PORT = 4000;
 
