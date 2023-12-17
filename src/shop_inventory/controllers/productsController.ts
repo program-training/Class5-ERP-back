@@ -26,7 +26,7 @@ export const handleGetProductsBySearch = async (req: Request, res: Response) => 
     const query = req.query;
     if(!Object(query).hasOwnProperty('searchText')){
       throw new ServerError(403, 'Query params not valid');
-    };
+    }
     const searchText = query.searchText as string;
     const products = await getProductsBySearchService(searchText);
     res.send(products);

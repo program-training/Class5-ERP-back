@@ -3,7 +3,6 @@ import {
   usersTypes,
   usersTypesQueries,
 } from "../auth/typeDef/usersTypes";
-import { statisticQueries } from "../internalRequests/queries/statisticQueries";
 import {
   inventoryTypes,
   inventoryTypesMutation,

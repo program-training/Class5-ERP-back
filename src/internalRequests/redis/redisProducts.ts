@@ -81,13 +81,12 @@ export const getMyProductsRedis = async (email:string) => {
     const products = await client.json.mGet(keys, '$');    
     
     // Filter products in code
-    const myProducts = products.map((p) => {
-      if ((p as any[])[0].createdBy === email) {
-        console.log(p);
-        return p
-      };
+    const myProducts = products.filter((p) => {      
+      if ((p as any[])[0].createdBy as string === email) {
+        return p;
+      }
     });
-    console.log(myProducts);
+    return myProducts;
   } catch (error) {
     console.log(error);
     throw new Error("error has accord in getting my products from redis");   

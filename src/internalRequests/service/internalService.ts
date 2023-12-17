@@ -1,4 +1,3 @@
-import { string } from "joi";
 import {
   getMyProductsQuery,
   getProductLogsByIdFromDb,
@@ -95,11 +94,11 @@ export const getMyProductsService = async (token: string) => {
     const decodedToken = jwt.decode(token);
     const { email } = decodedToken as JwtPayload;
     if (email) {
-      // await getMyProductsRedis(email);
+      const myProductFromRedis = await getMyProductsRedis(email);
+      if(myProductFromRedis.length !== 0) return myProductFromRedis;
       const products = await getMyProductsQuery(email);
       return products;
     }
-
     return [];
   } catch (error) {
     return Promise.reject(error);
@@ -112,7 +111,6 @@ export const updateQuantityService = async (id: string, quantity: number) => {
       setTimeout(() => {
         resolve(sendUpdateQuantityQuery(id, quantity));
       }, 1000);
-      // }, 5000*quantity);
     });
 
     return updateProduct;
