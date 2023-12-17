@@ -1,7 +1,8 @@
 import cors, { CorsOptionsDelegate } from "cors";
 
 const whiteList = ["http://localhost:5173"];
-const corsOptions: CorsOptionsDelegate = (req, callback) => {
+
+export const corsOptions: CorsOptionsDelegate = (req, callback) => {
   console.log(req.headers.origin);
 
   const isExist = whiteList.find((api) => api === req.headers.origin);
