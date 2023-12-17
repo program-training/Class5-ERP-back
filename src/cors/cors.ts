@@ -1,7 +1,7 @@
 import cors, { CorsOptionsDelegate } from "cors";
 
 const whiteList = ["http://localhost:5173"];
-
+const r = 
 export const corsOptions: CorsOptionsDelegate = (req, callback) => {
   console.log(req.headers.origin);
 
