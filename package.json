@@ -9,7 +9,7 @@
     "jest": "cross-env NODE_ENV=test jest --testTimeout=10000",
     "build": "tsc",
     "start": "node dist/server.js",
-    "lint": "eslint src --ext .ts  --max-warnings 0"
+    "lint": "eslint src --ext .ts --max-warnings 0"
   },
   "author": "",
   "license": "ISC",
