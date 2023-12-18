@@ -3,6 +3,8 @@ import 'dotenv/config'
 
 const client = createClient({url: process.env.REDIS_CONNECTION_STRING})
 
+client.on('error', (err) => console.log('Redis Client Error', err))
+
 export default async function connectToRedis () {
     try {        
         await client.connect()
