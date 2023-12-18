@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { client } from "../../dbAccess/redisConnection";
 import { sendGetAllProductsQuery } from "../dal/internalDal";
 import { AdminProductInterface } from "../interfaces/adminProductINterface";
@@ -75,20 +76,20 @@ export const deleteProductRedis = async (id: string) => {
   }
 };
 
-export const getMyProductsRedis = async (email:string) => {
+export const getMyProductsRedis = async (email: string) => {
   try {
-    const keys = await client.keys('products:*');
-    const products = await client.json.mGet(keys, '$');    
-    
+    const keys = await client.keys("products:*");
+    const products = await client.json.mGet(keys, "$");
+
     // Filter products in code
-    const myProducts = products.filter((p) => {      
-      if ((p as any[])[0].createdBy as string === email) {
+    const myProducts = products.filter((p) => {
+      if (((p as any[])[0].createdBy as string) === email) {
         return p;
       }
     });
     return myProducts;
   } catch (error) {
     console.log(error);
-    throw new Error("error has accord in getting my products from redis");   
+    throw new Error("error has accord in getting my products from redis");
   }
-}
+};
