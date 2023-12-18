@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import connectionToMongoDb from "./dbAccess/mongoDBConnection";
 import { connectionToPostgres } from "./dbAccess/postgresConnection";
 import initialData from "./utils/initialData";
@@ -7,6 +8,7 @@ import express from "express";
 import morganLogger from "./logger/morgan";
 import corsHandler from "./cors/cors";
 import { handleServerError } from "./utils/handleErrors";
+import { connectToRedis } from "./dbAccess/redisConnection";
 
 const PORT = 4000;
 
@@ -29,6 +31,9 @@ server
       initialData()
         .then((message) => console.log(chalk.cyan(message)))
         .catch((message) => console.log(chalk.redBright(message)));
+      connectToRedis()
+        .then((message) => console.log(chalk.blue(message)))
+        .catch((error) => console.log(chalk.redBright(error.message)));
     });
     app.listen({ port: 4000 }, () =>
       console.log(

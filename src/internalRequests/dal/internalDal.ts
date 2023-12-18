@@ -10,6 +10,7 @@ export const sendGetAllProductsQuery = async () => {
     const data = await client.query(queries.getAllProductsQ);
     return data.rows;
   } catch (error) {
+    console.log(error);
     return Promise.reject(error);
   }
 };
@@ -40,7 +41,7 @@ export const sendUpdateProductQuery = async (
   entries: productEntriesType
 ) => {
   try {
-    const query = updateQGenerator(id, entries);
+    const query = updateQGenerator(id, entries);    
     const data = await client.query(query);
     return data.rows;
   } catch (error) {
