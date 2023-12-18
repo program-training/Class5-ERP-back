@@ -37,7 +37,7 @@ export const addProduct = async (_: any, args: any, context: any) => {
     const { input: product } = args;
     const token = context.token;
     const newProduct = await addNewProductService(product, token);
-    return newProduct;
+    return newProduct[0];
   } catch (error) {
     console.log(error);
     return error;
