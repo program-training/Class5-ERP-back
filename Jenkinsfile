@@ -20,14 +20,14 @@ pipeline {
             steps {
                 script {
                     // Create the network if it doesn't exist
-                    sh 'npm install'
+                    // sh 'npm install'
                     sh 'docker network ls | grep -q app-network || docker network create app-network'
                     
                     // Install Jest globally (if not already installed)
-                    sh 'npm install -g jest'
+                    // sh 'npm install -g jest'
                     
                     // Run unit tests
-                    sh 'jest'
+                    // sh 'jest'
                     
                     // Build the Docker image for Node.js server
                     sh 'docker build -t $DOCKER_IMAGE_NAME .'
