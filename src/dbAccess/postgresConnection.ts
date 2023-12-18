@@ -1,7 +1,7 @@
-import { Client } from "pg";
+import { Pool } from "pg";
 import "dotenv/config";
 
-export const client = new Client({
+export const client = new Pool({
   connectionString: process.env.POSTGRESQL_CONNECTION_STRING,
 });
 

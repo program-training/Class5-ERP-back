@@ -1,7 +1,6 @@
 import { string } from "joi";
 import {
   getMyProductsQuery,
-  getProductLogsByIdFromDb,
   sendAddProductQuery,
   sendDeleteProductQuery,
   sendGetAllProductsQuery,
@@ -12,7 +11,6 @@ import {
 import { getArrOfObjEntries } from "../helpers/getArrOfObjEntries";
 import { AdminProductInterface } from "../interfaces/adminProductINterface";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import ServerError from "../../utils/serverErrorClass";
 
 export const getAllProductsService = async () => {
   try {
@@ -59,8 +57,6 @@ export const updateProductService = async (
   update: Omit<AdminProductInterface, "id">
 ) => {
   try {
-    console.log('updating. pr:', update);
-    
     const entries = getArrOfObjEntries(update);
     const updatedProduct = await sendUpdateProductQuery(id, entries);
     return updatedProduct;
@@ -70,7 +66,7 @@ export const updateProductService = async (
 };
 
 export const deleteProductByIdService = async (id: string) => {
-  try {    
+  try {
     const deleting = await sendDeleteProductQuery(id);
     if (!deleting.length) throw new Error("product not found");
     return deleting;
@@ -94,32 +90,18 @@ export const getMyProductsService = async (token: string) => {
   }
 };
 
-export const updateQuantityService = async (id: string, quantity: number) => {
+export const updateQuantityService = async(id:string, quantity:number) => {
   try {
-    const updateProduct = await new Promise((resolve) => {
+    const updateProduct = await new Promise(resolve => {
       setTimeout(() => {
         resolve(sendUpdateQuantityQuery(id, quantity));
       }, 1000);
       // }, 5000*quantity);
     });
-
+    
     return updateProduct;
   } catch (error) {
     console.log(error);
     return Promise.reject(error);
   }
-};
-
-export const getQuantityLogsById = async (productId: string | number) => {
-  try {
-    if (Number.isNaN(+productId))
-      throw new ServerError(404, "Id must be a number");
-
-    const productLogs = await getProductLogsByIdFromDb(productId);
-    
-    return productLogs;
-  } catch (error) {
-    console.log(error);
-    return Promise.reject(error);
-  }
-};
+}

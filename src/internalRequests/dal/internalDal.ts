@@ -1,7 +1,6 @@
+import { b } from "vitest/dist/reporters-5f784f42";
 import { client } from "../../dbAccess/postgresConnection";
-import ServerError from "../../utils/serverErrorClass";
 import { insertQGenerator, updateQGenerator } from "../helpers/queryGenerators";
-import { ProductsLogsInterface } from "../interfaces/productLogsInterface";
 import { productEntriesType } from "../types/productEntriesType";
 import queries from "../utils/queries";
 
@@ -51,8 +50,8 @@ export const sendUpdateProductQuery = async (
 export const sendDeleteProductQuery = async (id: string) => {
   try {
     const deleting = await client.query(
-      queries.deleteProductByIdQ + id + " RETURNING *"
-    );    
+      queries.deleteProductByIdQ + id + "RETURNING *"
+    );
     return deleting.rows;
   } catch (error) {
     return Promise.reject(error);
@@ -62,7 +61,12 @@ export const sendDeleteProductQuery = async (id: string) => {
 export const getMyProductsQuery = async (by: string) => {
   try {
     const query = `SELECT * FROM products WHERE "createdBy" ILIKE '${by}'`;
+
     const products = await client.query(query);
+    if (!products.rows.length)
+      throw new Error(
+        "To view the products you have added, you must add products first"
+      );
 
     return products.rows;
   } catch (error) {
@@ -85,31 +89,3 @@ export const sendUpdateQuantityQuery = async (id: string, quantity: number) => {
     return Promise.reject(error);
   }
 };
-
-
-
-export const getProductLogsByIdFromDb =async (productId:string | number) => {
-  try {
-      if(Number.isNaN(+productId)) throw new ServerError(404, 'Id must be a number');
-      const query = `
-      SELECT 
-        product_id,
-        action,
-        quantity_changed,
-        current_quantity,
-        to_char(changed_on, 'MM/DD/YYYY HH24:MI:SS') as changed_on 
-      FROM quantity_logs
-      WHERE product_id = ${productId};
-      `;
-
-      await client.query('BEGIN');
-      const productLogs = await client.query(query);
-      await client.query('COMMIT');
-
-      return productLogs.rows as ProductsLogsInterface[];
-  } catch (error) {
-      console.log(error);
-      return Promise.reject(error);
-  }
-  
-}
