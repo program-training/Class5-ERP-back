@@ -19,7 +19,6 @@ import resolvers from "./graphql/resolvers";
 import { ApolloServer } from "@apollo/server";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import cors from "cors";
-import { requireAuth } from "./middleware/authExpress";
 
 const PORT = 4000;
 
@@ -59,12 +58,11 @@ apolloServer.start().then(() => {
   app.use(morganLogger);
   app.use(corsHandler);
   app.use(handleServerError);
-  // app.use(requireAuth);
   app.use(
     "/graphql",
     cors(),
     BodyParser.json(),
-    expressMiddleware(apolloServer)
+    expressMiddleware(apolloServer, {context})
   );
   connectionToMongoDb()
     .then((message) => console.log(chalk.blue(message)))

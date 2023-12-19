@@ -4,8 +4,6 @@ import resolvers from "./resolvers";
 import { decode } from "jsonwebtoken";
 
 export const context = async ({ req }: any) => {
-  console.log(req);
-  
   const token = req.headers.authorization || "";
   const userInfo = decode(token);
   return {
