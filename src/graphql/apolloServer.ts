@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ApolloServer } from "apollo-server-express";
 import typeDefs from "./typeDefs";
 import resolvers from "./resolvers";

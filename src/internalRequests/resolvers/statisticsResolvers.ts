@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { graphQlAuthCheck } from "../../utils/grapqlAuthCheck";
 import { getQuantityLogsById } from "../service/internalService";
 import { PubSub, withFilter } from "graphql-subscriptions";
