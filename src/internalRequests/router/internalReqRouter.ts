@@ -8,7 +8,7 @@ import {
   handleUpdateProductReq,
   handleUpdateQuantityReq,
 } from "../controller/internalController";
-import { requireAuth } from "../../middleware/auth";
+import { requireAuth } from "../../middleware/authGraphQl";
 
 const internalRouter = express.Router();
 

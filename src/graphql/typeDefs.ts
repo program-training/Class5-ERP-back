@@ -8,7 +8,7 @@ import {
   inventoryTypesMutation,
   inventoryTypesQuery,
 } from "../internalRequests/typeDef/inventoryTypes";
-import { statisticTypesQuery, statisticsTypes } from "../internalRequests/typeDef/statisticsTypes";
+import { statiscitSupbscription, statisticTypesQuery, statisticsTypes } from "../internalRequests/typeDef/statisticsTypes";
 import { shopInventoryTypes, shopInventoryTypesMutation, shopInventoryTypesQueries } from "../shop_inventory/typeDef/shopInventoryTypes";
 
 const typeDefs = `#graphql   
@@ -29,6 +29,10 @@ const typeDefs = `#graphql
     ${usersTypesMutation}
     ${inventoryTypesMutation}
     ${shopInventoryTypesMutation}
+  }
+
+  type Subscription {
+    ${statiscitSupbscription}
   }
 `;
 
