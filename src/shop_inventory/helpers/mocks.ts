@@ -14,7 +14,7 @@ export const productMock = {
     "id": 123,
     "name": "Yoga Mat",
     "salePrice": "29.99",
-    "quantity": 276,
+    "quantity": 32,
     "description": "6mm thick yoga and exercise mat",
     "category": "Fitness",
     "discountPercentage": 10,

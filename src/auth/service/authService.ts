@@ -1,7 +1,8 @@
-import { getAllUsersFromMongoDB, insertUsers } from "../dal/mongose";
+import { deleteUserFromDB, getAllUsersFromMongoDB, insertUsers } from "../dal/mongose";
 import { comparePassword, generateUserPassword } from "../helpers/bcrypt";
 import { UserInterface } from "../interface/user";
 import { generateAuthToken } from "../model/jwt/jwt";
+import { User } from "../model/mongose/userSchema";
 
 type UserResult = Promise<UserInterface | null>;
 
@@ -29,7 +30,9 @@ export const register = async (user: UserInterface): UserResult => {
 
     await insertUsers(user);
 
-    return user;
+    const newUser = User.findOne({email:user.email});
+
+    return newUser;
   } catch (error) {
     console.log(error);
     return Promise.reject(error);
@@ -58,3 +61,13 @@ export const login = async (userFromClient: UserInterface) => {
     return Promise.reject(error);
   }
 };
+
+export const deleteUser = async (userId:string) => {
+  try {
+    await deleteUserFromDB(userId);
+  } catch (error) {
+    console.error(error);
+    return Promise.reject(error);
+  }
+}
+

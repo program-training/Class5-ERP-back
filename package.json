@@ -5,8 +5,7 @@
   "main": "./dist/server.js",
   "scripts": {
     "dev": "nodemon --watch dist --exec node dist/server.js",
-    "test": "vitest run",
-    "jest": "cross-env NODE_ENV=test jest --testTimeout=10000",
+    "test": "jest",
     "build": "tsc",
     "start": "node dist/server.js"
   },
@@ -49,21 +48,5 @@
     "morgan": "^1.10.0",
     "pg": "^8.11.3",
     "typescript": "^5.3.2"
-  },
-  "jest": {
-    "testMatch": [
-      "**/src/**/*.test.ts"
-    ],
-    "roots": [
-      "<rootDir>/src"
-    ],
-    "preset": "ts-jest",
-    "testEnvironment": "node",
-    "coveragePathIgnorePatterns": [
-      "/node_modules/"
-    ],
-    "moduleNameMapper": {
-      "^@/(.*)$": "<rootDir>/src/$1"
-    }
   }
 }

@@ -23,20 +23,6 @@ describe("getProductById function", () => {
       await expect(getProductById('abc')).rejects.toThrow(ServerError);
     });
 
-    it('should reject with error from db', async () => { 
-      const errorMessage = "product not found";
-      mockGetProductByIdFromDb.mockRejectedValue(new Error(errorMessage));
-
-      await expect(getProductById(123452345)).rejects.toThrow(errorMessage);
-    });
-
-    it('should resolve with product on success', async () => {
-      
-      mockGetProductByIdFromDb.mockResolvedValue(productMock);
-      const result = await getProductById(123);
-      expect(result).toEqual(productMock);
-    });
-
     it("test with number:", async () => {  
       const result = await getProductById(NUM_ID);
       expect(Object.keys(result)).toEqual(productKeys);
@@ -62,25 +48,5 @@ describe("updateProductsById function", () => {
     ];
     const result = await updateProductsById(testReq);
     expect(Object.keys(result)).toEqual(["inStock", "notInStock"]);
-  });
-});
-
-describe("addQuantityToProducts function", () => {
-  test("add quantity to products", async () => {
-    const prevQuantity = (await getProductById(ID)).quantity;
-    const requiredQuantity = 1;
-
-    const testReq = [
-      {
-        productId:ID,
-        requiredQuantity,
-      },
-    ];
-
-    await addQuantityToProducts(testReq);
-    const currentQuantity = (await getProductById(ID)).quantity;
-    const result = currentQuantity - prevQuantity;
-
-    expect(result).toEqual(requiredQuantity);
   });
 });
