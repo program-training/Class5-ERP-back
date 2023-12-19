@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import { Request } from "express";
 import { verifyToken } from "../auth/model/jwt/jwt";
 import { BaseContext } from "@apollo/server";
 import { StandaloneServerContextFunctionArgument } from "@apollo/server/dist/esm/standalone";
@@ -13,7 +13,7 @@ export const requireAuth = ({
     (req as Request).body.operationName === "GetUsers" ||
     (req as Request).body.operationName === "loginUser" ||
     (req as Request).body.operationName === "RegisterUser" ||
-    (req as Request).body.operationName === "IntrospectionQuery" 
+    (req as Request).body.operationName === "IntrospectionQuery"
   )
     return null as unknown as Promise<BaseContext>;
   const authToken = req.headers["authorization"] || "";

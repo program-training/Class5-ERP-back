@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import {handleError} from "../../utils/handleErrors";
 import {
-  addQuantityToProducts,
-    getProductById,
-    getProductsBySearch,
+  addQuantityToProductsService,
+  getProductByIdService,
+  getProductsBySearchService,
     updateProductsById,
 }from "../services/productsService";
 import ServerError from "../../utils/serverErrorClass";
@@ -14,7 +14,7 @@ export const handleGetProductById = async (req: Request, res: Response) => {
       if(Number.isNaN(+productId)) {
         throw new ServerError(404, 'Id must be a number');
       }
-      const product = await getProductById(productId);
+      const product = await getProductByIdService(productId);
       res.send(product);
     } catch (error) {
       handleError(res, error);
@@ -26,9 +26,9 @@ export const handleGetProductsBySearch = async (req: Request, res: Response) => 
     const query = req.query;
     if(!Object(query).hasOwnProperty('searchText')){
       throw new ServerError(403, 'Query params not valid');
-    };
+    }
     const searchText = query.searchText as string;
-    const products = await getProductsBySearch(searchText);
+    const products = await getProductsBySearchService(searchText);
     res.send(products);
   }catch (error) {
     handleError(res, error);
@@ -52,7 +52,7 @@ export const handleUpdateProducts = async (req: Request, res: Response) => {
 export const handleCancelOrder = async (req: Request, res: Response) => {
   try{
       const productsToUpdate = req.body;
-      await addQuantityToProducts(productsToUpdate);
+      await addQuantityToProductsService(productsToUpdate);
       res.send();
   }catch (error) {
     handleError(res, error);

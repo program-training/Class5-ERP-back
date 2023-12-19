@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ApolloServer } from "apollo-server-express";
 import typeDefs from "./typeDefs";
 import resolvers from "./resolvers";
 import { decode } from "jsonwebtoken";
 
-const context = async ({ req }: any) => {
+export const context = async ({ req }: any) => {
+  console.log(req);
+  
   const token = req.headers.authorization || "";
   const userInfo = decode(token);
   return {

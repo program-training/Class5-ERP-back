@@ -8,7 +8,7 @@ import {
 import { exportIdsToArray, checkQuantity } from "../helpers/helpers";
 import { UpdateProductInterface } from "../interfaces/updateProductInterface";
 
-export const getProductById = async (id: string | number) => {
+export const getProductByIdService = async (id: string | number) => {
     try {
       
       if(Number.isNaN(+id)) throw new ServerError(404, 'Id must be a number');
@@ -20,7 +20,7 @@ export const getProductById = async (id: string | number) => {
     }
 };
 
-export const getProductsBySearch = async (searchText: string) => {
+export const getProductsBySearchService = async (searchText: string) => {
   try {
     let products = await getProductsBySearchFromDb(searchText);
     products = products.filter(product => product.quantity > 0);
@@ -44,7 +44,7 @@ export const updateProductsById = async (productsToUpdate: UpdateProductInterfac
   }
 }
 
-export const addQuantityToProducts = async (productsToUpdate: UpdateProductInterface[]) => {
+export const addQuantityToProductsService = async (productsToUpdate: UpdateProductInterface[]) => {
   try {
     await updateProductsInDb(productsToUpdate, "+");
   }catch (error) {

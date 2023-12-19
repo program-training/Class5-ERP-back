@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextFunction, Response, Request } from "express";
 import chalk from "chalk";
 
@@ -25,4 +26,5 @@ export const handleServerError = (
 ) => {
   console.log(chalk.redBright(error.message));
   res.status(500).send(error.message);
+  next();
 };
