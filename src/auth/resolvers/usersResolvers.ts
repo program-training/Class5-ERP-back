@@ -1,15 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getAllUsersFromMongoDB } from "../dal/mongose";
 import userValidation from "../model/joi/userValidertion";
 import { login, register } from "../service/authService";
 
 export const getUsers = async () => {
-    try{
-        const users = await getAllUsersFromMongoDB();
-        return users;
-    }catch (error) {
-        console.log(error);
-        return null;
-    }
+  try {
+    const users = await getAllUsersFromMongoDB();
+    return users;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
 };
 
 interface UserId {
@@ -27,10 +28,9 @@ export const getUser = async (_: any, { id }: UserId) => {
   }
 };
 
-
-export const registerUser = async (_: any, args:any) => {
+export const registerUser = async (_: any, args: any) => {
   try {
-    const {email, password} = args.input
+    const { email, password } = args.input;
     const { error } = userValidation({ email, password });
     if (error?.details[0].message) throw new Error(error?.details[0].message);
 
@@ -42,12 +42,11 @@ export const registerUser = async (_: any, args:any) => {
   }
 };
 
-
-export const loginUser = async (_:any, args:any) => {
+export const loginUser = async (_: any, args: any) => {
   try {
-    const {email, password} = args.input
+    const { email, password } = args.input;
     const { error } = userValidation({ email, password });
-    if (error?.details[0].message) throw new Error(error?.details[0].message); 
+    if (error?.details[0].message) throw new Error(error?.details[0].message);
 
     const token = await login({ email, password });
     return token;
@@ -55,4 +54,4 @@ export const loginUser = async (_:any, args:any) => {
     console.log(error);
     return error;
   }
-}
+};

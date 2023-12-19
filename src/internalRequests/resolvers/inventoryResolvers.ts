@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   getProductByIdService,
   getAllProductsService,
@@ -19,7 +20,7 @@ export const getProducts = async (_parent: any, _args: any,context:any) => {
   }
 };
 
-export const getProduct = async (_: any, args: any, {token}: any) => {
+export const getProduct = async (_: any, args: any, { token }: any) => {
   try {
     // graphQlAuthCheck(token);
     const { id } = args;
@@ -37,19 +38,19 @@ export const addProduct = async (_: any, args: any, context: any) => {
     const { input: product } = args;
     const token = context.token;
     const newProduct = await addNewProductService(product, token);
-    return newProduct;
+    return newProduct[0];
   } catch (error) {
     console.log(error);
     return error;
   }
 };
 
-export const updateProduct = async (_: any, args: any, {token}: any) => {
+export const updateProduct = async (_: any, args: any, { token }: any) => {
   try {
     // graphQlAuthCheck(token);
     const {  input: { product, id  }} = args;
     console.log('id', id);
-    
+
     const updatedProduct = await updateProductService(id, product);
     return updatedProduct[0];
   } catch (error) {
@@ -58,7 +59,7 @@ export const updateProduct = async (_: any, args: any, {token}: any) => {
   }
 };
 
-export const deleteProduct = async (_: any, args: any, {token}:any) => {
+export const deleteProduct = async (_: any, args: any, { token }: any) => {
   try {
     // graphQlAuthCheck(token);
     const {
@@ -82,3 +83,4 @@ export const getMyProducts =async (_parent:any, _args:any, {token}:any) => {
         return error;
     }
 }
+

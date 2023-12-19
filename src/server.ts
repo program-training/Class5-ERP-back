@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import connectionToMongoDb from "./dbAccess/mongoDBConnection";
 import { connectionToPostgres } from "./dbAccess/postgresConnection";
 import initialData from "./utils/initialData";
