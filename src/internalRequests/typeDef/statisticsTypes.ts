@@ -12,3 +12,7 @@ export const statisticsTypes = `
 export const statisticTypesQuery = `
     getProductStatistics(id: String!):[ProductStatistics]
 `
+
+export const statiscitSupbscription = `
+    statisticChanged(productId: ID!):[ProductStatistics]
+`

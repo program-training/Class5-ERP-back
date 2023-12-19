@@ -8,9 +8,9 @@ import {
 } from "../service/internalService";
 import { graphQlAuthCheck } from "../../utils/grapqlAuthCheck";
 
-export const getProducts = async (_parent: any, _args: any, { token }: any) => {
+export const getProducts = async (_parent: any, _args: any,context:any) => {
   try {
-    graphQlAuthCheck(token);
+    // graphQlAuthCheck(context.token);
     const products = await getAllProductsService();
     return products;
   } catch (error) {
@@ -21,7 +21,7 @@ export const getProducts = async (_parent: any, _args: any, { token }: any) => {
 
 export const getProduct = async (_: any, args: any, {token}: any) => {
   try {
-    graphQlAuthCheck(token);
+    // graphQlAuthCheck(token);
     const { id } = args;
     const product = await getProductByIdService(id);
     return product[0];
@@ -33,7 +33,7 @@ export const getProduct = async (_: any, args: any, {token}: any) => {
 
 export const addProduct = async (_: any, args: any, context: any) => {
   try {
-    graphQlAuthCheck(context.token);    
+    // graphQlAuthCheck(context.token);    
     const { input: product } = args;
     const token = context.token;
     const newProduct = await addNewProductService(product, token);
@@ -46,7 +46,7 @@ export const addProduct = async (_: any, args: any, context: any) => {
 
 export const updateProduct = async (_: any, args: any, {token}: any) => {
   try {
-    graphQlAuthCheck(token);
+    // graphQlAuthCheck(token);
     const {  input: { product, id  }} = args;
     console.log('id', id);
     
@@ -60,7 +60,7 @@ export const updateProduct = async (_: any, args: any, {token}: any) => {
 
 export const deleteProduct = async (_: any, args: any, {token}:any) => {
   try {
-    graphQlAuthCheck(token);
+    // graphQlAuthCheck(token);
     const {
       input: { id },
     } = args;
@@ -74,7 +74,7 @@ export const deleteProduct = async (_: any, args: any, {token}:any) => {
 
 export const getMyProducts =async (_parent:any, _args:any, {token}:any) => {
     try {
-        graphQlAuthCheck(token);
+        // graphQlAuthCheck(token);
         const myProducts = getMyProductsService(token);
         return myProducts;
     } catch (error) {
