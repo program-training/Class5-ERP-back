@@ -8,7 +8,7 @@ import express from "express";
 import morganLogger from "./logger/morgan";
 import corsHandler from "./cors/cors";
 import { handleServerError } from "./utils/handleErrors";
-import { connectToRedis } from "./dbAccess/redisConnection";
+import connectToRedis from "./dbAccess/redisConnection";
 import { createServer } from "http";
 import { WebSocketServer } from "ws";
 import { makeExecutableSchema } from "@graphql-tools/schema";
