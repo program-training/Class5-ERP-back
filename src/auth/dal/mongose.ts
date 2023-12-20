@@ -19,3 +19,13 @@ export const insertUsers = async (user: UserInterface) => {
     if (error instanceof Error) return Promise.reject(error);
   }
 };
+
+export const deleteUserFromDB = async (id:string) => {
+  try {
+    const result = await User.deleteOne({
+      _id: id
+    });
+  } catch (error) {
+    if (error instanceof Error) return Promise.reject(error);
+  }
+}
