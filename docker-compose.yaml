@@ -1,0 +1,46 @@
+version: "3"
+services:
+  mongo-db:
+    image: mongo
+    container_name: mongo-db
+    networks:
+      - app-network
+  my-postgres:
+    image: postgres
+    container_name: my-postgres
+    environment:
+      POSTGRES_PASSWORD: mypassword
+    networks:
+      - app-network
+    volumes:
+      - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 25s
+      retries: 3
+  erp-back:
+    image: erp-back
+    container_name: erp-back
+    networks:
+      - app-network
+    environment:
+      - MONGODB_URI=mongodb://mongo-db:27017/test
+      - POSTGRESQL_CONNECTION_STRING=postgresql://postgres:mypassword@my-postgres:5432/db
+      - JWT_SECRET=secretKey
+      - PORT=8081
+    depends_on:
+      - my-postgres
+      - mongo-db
+  erp-back-test:
+    image: erp-back-test
+    container_name: erp-back-test
+    networks:
+      - app-network
+    environment:
+      - BASE_URL=http://app-network:8081
+    depends_on:
+      - erp-back
+networks:
+  app-network:
+    driver: bridge
