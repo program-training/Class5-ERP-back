@@ -19,7 +19,7 @@ pipeline {
         stage('Build and Test') {
             steps {
                 script {
-                    // Create the network if it doesn't exist
+                    // Create the network if it doesn't e.xist
                     sh 'npm install && npm cache clean --force'
                     sh 'docker network ls | grep -q app-network || docker network create app-network'
                     
