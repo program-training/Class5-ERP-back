@@ -1,7 +1,9 @@
 import { compareSync } from "bcryptjs";
 import request from "supertest";
 
-const server = request(`http://localhost:3000`);
+const BASE_URL = process.env.BASE_URL || `http://localhost:3000`;
+
+const server = request(BASE_URL);
 describe("handleLogin test", () => {
   test("login new user", async () => {
     const loginUser = {
