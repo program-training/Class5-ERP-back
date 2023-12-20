@@ -1,7 +1,6 @@
 import ServerError from "../../utils/serverErrorClass";
-import { productMock, productKeys } from "../helpers/mocks";
+import { productKeys } from "../helpers/mocks";
 import {
-  addQuantityToProducts,
   getProductById,
   getProductsBySearch,
   updateProductsById,
@@ -10,23 +9,21 @@ import {
 const ID = "123";
 const NUM_ID = 123;
 
-
 describe("getProductById function", () => {
+  const mockGetProductByIdFromDb = jest.fn();
 
-    const mockGetProductByIdFromDb = jest.fn();
+  beforeEach(() => {
+    mockGetProductByIdFromDb.mockReset();
+  });
 
-    beforeEach(() => {
-      mockGetProductByIdFromDb.mockReset();    
-    });
+  it("should throw error if id is not number", async () => {
+    await expect(getProductById("abc")).rejects.toThrow(ServerError);
+  });
 
-    it('should throw error if id is not number', async () => { 
-      await expect(getProductById('abc')).rejects.toThrow(ServerError);
-    });
-
-    it("test with number:", async () => {  
-      const result = await getProductById(NUM_ID);
-      expect(Object.keys(result)).toEqual(productKeys);
-    });
+  it("test with number:", async () => {
+    const result = await getProductById(NUM_ID);
+    expect(Object.keys(result)).toEqual(productKeys);
+  });
 });
 
 describe("getProductsBySearch function", () => {

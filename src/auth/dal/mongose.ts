@@ -20,12 +20,10 @@ export const insertUsers = async (user: UserInterface) => {
   }
 };
 
-export const deleteUserFromDB = async (id:string) => {
+export const deleteUserFromDB = async (id: string) => {
   try {
-    const result = await User.deleteOne({
-      _id: id
-    });
+    await User.deleteOne({ _id: id });
   } catch (error) {
     if (error instanceof Error) return Promise.reject(error);
   }
-}
+};

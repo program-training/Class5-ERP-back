@@ -1,7 +1,8 @@
 import { compareSync } from "bcryptjs";
 import request from "supertest";
 
-const BASE_URL = process.env.BASE_URL || `http://localhost:3000`;
+const PORT = process.env.PORT || 3000;
+const BASE_URL = process.env.BASE_URL || `http://localhost:${PORT}`;
 
 const server = request(BASE_URL);
 describe("handleLogin test", () => {
