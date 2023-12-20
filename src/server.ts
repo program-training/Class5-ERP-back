@@ -2,7 +2,7 @@
 import connectionToMongoDb from "./dbAccess/mongoDBConnection";
 import { connectionToPostgres } from "./dbAccess/postgresConnection";
 import initialData from "./utils/initialData";
-import server, { context } from "./graphql/apolloServer";
+import { context } from "./graphql/apolloServer";
 import chalk from "chalk";
 import express from "express";
 import morganLogger from "./logger/morgan";
@@ -36,8 +36,7 @@ const wsServer = new WebSocketServer({
 
 const schema = makeExecutableSchema({ typeDefs, resolvers });
 
-const serverCleanup = useServer({ schema }, wsServer,);
-
+const serverCleanup = useServer({ schema }, wsServer);
 
 const apolloServer = new ApolloServer({
   schema,
@@ -63,7 +62,7 @@ apolloServer.start().then(() => {
     "/graphql",
     cors(),
     BodyParser.json(),
-    expressMiddleware(apolloServer, {context})
+    expressMiddleware(apolloServer, { context })
   );
   connectionToMongoDb()
     .then((message) => console.log(chalk.blue(message)))
