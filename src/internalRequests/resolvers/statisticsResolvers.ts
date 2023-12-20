@@ -28,12 +28,7 @@ export const statisticChanged = {
   subscribe: withFilter(
     () => pubsub.asyncIterator(["STATISTIC_CHANGED"]),
     (payload, variables) => {
-      console.log('payload:', payload, 'vaianbles', variables);
-      
-      // Only push an update if the comment is on
-      // the correct repository for this operation
-      console.log('in subscir');
-      
+            
       return payload.statisticChanged[0].product_id.toString() === variables.productId;
     }
   ),
