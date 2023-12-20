@@ -13,8 +13,5 @@
       "@types/jest"
     ]
   },
-  "exclude": [
-    // "src/__tests__/**"
-    "__tests__"
-  ]
+  "exclude": ["**/*.test.ts"]
 }

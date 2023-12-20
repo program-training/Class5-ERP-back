@@ -20,7 +20,7 @@ pipeline {
             steps {
                 script {
                     // Create the network if it doesn't exist
-                    sh 'npm install'
+                    sh 'npm install && npm cache clean --force'
                     sh 'docker network ls | grep -q app-network || docker network create app-network'
                     
                     // Install Jest globally (if not already installed)
@@ -30,7 +30,20 @@ pipeline {
                     sh 'npm run test'
                     
                     // Build the Docker image for Node.js server
-                    sh 'docker build -t $DOCKER_IMAGE_NAME .'
+                    sh 'docker build -t erp-back-test -f ./test.dockerfile .'
+                    sh "docker build -t $DOCKER_IMAGE_NAME ."
+                    sh 'docker-compose -f ./docker-compose.yaml config'
+                    sh 'docker-compose up -d'
+                }
+            }
+        }
+        stage('logs') {
+            steps {
+                script {
+                    sh 'docker ps'
+                    sh 'docker logs my-postgres'
+                    sh 'docker logs mongo-db'
+                    sh "docker logs -f $DOCKER_IMAGE_NAME"
                 }
             }
         }
