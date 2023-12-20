@@ -45,7 +45,7 @@ pipeline {
                     sh 'docker ps'
                     sh 'docker logs my-postgres'
                     sh 'docker logs mongo-db'
-                    sh "docker logs -f $DOCKER_IMAGE_NAME"
+                    sh "docker logs -f erp-back"
                 }
             }
         }
