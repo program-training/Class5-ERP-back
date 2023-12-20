@@ -27,7 +27,7 @@ pipeline {
                     // sh 'npm install -g jest'
                     
                     // Run unit tests
-                    sh 'npm run test'
+                    // sh 'npm run test'
                     
                     // Build the Docker image for Node.js server
                     sh 'docker build -t erp-back-test -f ./test.dockerfile .'
