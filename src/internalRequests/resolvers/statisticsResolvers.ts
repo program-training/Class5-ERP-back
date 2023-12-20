@@ -1,9 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { RedisPubSub } from "graphql-redis-subscriptions";
 import { graphQlAuthCheck } from "../../utils/grapqlAuthCheck";
 import { getQuantityLogsById } from "../service/internalService";
 import { PubSub, withFilter } from "graphql-subscriptions";
+import 'dotenv/config'
 
-export const pubsub = new PubSub();
+// export const pubsub = new PubSub();
+export const pubsub = new RedisPubSub({
+  connection: process.env.REDIS_CONNECTION_STRING
+})
 export const getProductStatistics = async (
   _: any,
   args: any,
