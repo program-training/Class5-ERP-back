@@ -1,5 +1,5 @@
 FROM node:18-alpine
-COPY ..
+COPY . .
 RUN npm i
 
 CMD ["npm", "test"]
