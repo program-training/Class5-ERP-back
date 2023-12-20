@@ -11,7 +11,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
-                    def pullRequestBranch = env.GITHUB_PR_SOURCE_BRANCH ?: 'fix2'
+                    def pullRequestBranch = env.GITHUB_PR_SOURCE_BRANCH ?: 'fix'
                     checkout([$class: 'GitSCM', branches: [[name: "*/${pullRequestBranch}"]], userRemoteConfigs: [[url:'https://github.com/program-training/Class5-ERP-back.git']]])
                 }
             }
