@@ -4,7 +4,7 @@ pipeline {
         githubPush()
     }
     environment {
-        DOCKER_IMAGE_NAME = 'yakovperets/erp-server'
+        DOCKER_IMAGE_NAME = 'yakovperets/erp-back'
         DOCKER_REGISTRY_CREDENTIALS = credentials('barakuni')
     }
     stages {
@@ -31,9 +31,11 @@ pipeline {
                     
                     // Build the Docker image for Node.js server
                     sh 'docker build -t erp-back-test -f ./test.dockerfile .'
-                    sh "docker build -t $DOCKER_IMAGE_NAME ."
+                    sh "docker build -t erp-back ."
                     sh 'docker-compose -f ./docker-compose.yaml config'
                     sh 'docker-compose up -d'
+                    sh "docker build -t $DOCKER_IMAGE_NAME ."
+
                 }
             }
         }
