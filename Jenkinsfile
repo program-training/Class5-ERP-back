@@ -20,7 +20,7 @@ pipeline {
             steps {
                 script {
                     // Create the network if it doesn't e.xist
-                    sh 'npm install && npm cache clean --force'
+                    // sh 'npm install && npm cache clean --force'
                     sh 'docker network ls | grep -q app-network || docker network create app-network'
                     
                     // Install Jest globally (if not already installed)
