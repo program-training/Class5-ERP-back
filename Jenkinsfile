@@ -28,7 +28,7 @@ pipeline {
                     
                     // Run unit tests
                     // sh 'npm run test'
-                    
+                    sh 'ls'
                     // Build the Docker image for Node.js server
                     sh 'docker build -t erp-back-test -f ./test.dockerfile .'
                     sh "docker build -t erp-back ."
